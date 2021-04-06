@@ -11,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -22,17 +24,18 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Cidade implements Serializable {
-	
+
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@EqualsAndHashCode.Include
 	private Integer id;
-	
+
 	@Column(length = 30)
 	private String nome;
-	
+
+	@JsonManagedReference
 	@ManyToOne(targetEntity = Estado.class, optional = false)
 	@JoinColumn(name = "estado_id", nullable = false, 
 		foreignKey = @ForeignKey(name = "fk_cidade_estado_id", 

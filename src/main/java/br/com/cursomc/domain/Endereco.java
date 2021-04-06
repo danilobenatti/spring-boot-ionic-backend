@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -39,6 +41,7 @@ public class Endereco implements Serializable {
 
 	private String cep;
 
+	@JsonBackReference
 	@ManyToOne(targetEntity = Cliente.class, optional = false)
 	@JoinColumn(name = "cliente_id", nullable = false,
 		foreignKey = @ForeignKey(name = "fk_endereco_cliente_id", 
