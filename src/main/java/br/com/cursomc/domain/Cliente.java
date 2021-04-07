@@ -72,4 +72,7 @@ public class Cliente implements Serializable {
 		this.tipo = tipo.getCodigo();
 	}
 
+	@OneToMany(mappedBy = "cliente")
+	private transient List<Pedido> pedidos = new ArrayList<>();
+
 }

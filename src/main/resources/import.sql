@@ -7,3 +7,8 @@ insert into cliente(id,nome,email,cpfoucnpj,tipo) values (1,'Maria Silva','maria
 insert into telefone(cliente_id,telefones) values (1,'98889696'),(1,'22223333');
 insert into endereco(id,logradouro,numero,complemento,bairro,cep,cliente_id,cidade_id) values (1,'Rua Flores','300','apt 203','Jardim','38302000',1,1);
 insert into endereco(id,logradouro,numero,complemento,bairro,cep,cliente_id,cidade_id) values (2,'Avenida Matos','105','sala 800','Centro','38777012',1,2);
+insert into pedido(id,instante,cliente_id,endereco_entrega_id) values (1,'2017-09-30 10:32',1,1),(2,'2017-10-10 19:25',1,2);
+insert into pagamento(pedido_id,status) values (1,2);
+insert into pagamento_com_cartao(pedido_id,numero_de_parcelas) values (1,6);
+insert into pagamento(pedido_id,status) values (2,1);
+insert into pagamento_com_boleto(pedido_id,data_pagamento,data_vencimento) values (2,null,'2017-10-20 00:00');

@@ -5,26 +5,26 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum TipoCliente {
+public enum StatusPagamento {
 
-	PESSOAFISICA(1, "Pessoa Física"), PESSOAJURIDICA(2, "Pessoa Jurídica");
+	PENDENTE(1, "Pendente"), QUITADO(2, "Quitado"), CANCELADO(3, "Cancelado");
 
 	private int codigo;
 
 	private String descricao;
 
-	public static TipoCliente toEnum(Integer codigo) {
+	public static StatusPagamento toEnum(Integer codigo) {
 
 		if (codigo == null || codigo.toString().isEmpty()) {
 			return null;
 		}
 
-		for (TipoCliente iterable : TipoCliente.values()) {
+		for (StatusPagamento iterable : StatusPagamento.values()) {
 			if (codigo.equals(iterable.getCodigo())) {
 				return iterable;
 			}
 		}
-		throw new IllegalArgumentException("Código " + codigo + " inválido para tipo de cliente");
+		throw new IllegalArgumentException("Código " + codigo + " inválido para tipo de pagamento");
 	}
 
 }
