@@ -17,7 +17,6 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.UniqueConstraint;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.EqualsAndHashCode;
@@ -43,7 +42,7 @@ public class Produto implements Serializable {
 
 	private Double preco;
 
-	@JsonBackReference
+	@JsonIgnore
 	@ManyToMany
 	@JoinTable(name = "produto_categoria", 
 		uniqueConstraints = @UniqueConstraint(name = "uk_produtoid_categoriaid", columnNames = {"produto_id","categoria_id"}),

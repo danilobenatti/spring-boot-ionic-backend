@@ -16,8 +16,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.UniqueConstraint;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import br.com.cursomc.domain.enums.TipoCliente;
 import lombok.Data;
@@ -53,7 +52,6 @@ public class Cliente implements Serializable {
 		this.tipo = tipo.getCodigo();
 	}
 
-	@JsonManagedReference
 	@OneToMany(mappedBy = "cliente")
 	private List<Endereco> enderecos = new ArrayList<>();
 
@@ -73,7 +71,7 @@ public class Cliente implements Serializable {
 		this.tipo = tipo.getCodigo();
 	}
 
-	@JsonBackReference
+	@JsonIgnore
 	@OneToMany(mappedBy = "cliente")
 	private transient List<Pedido> pedidos = new ArrayList<>();
 
