@@ -11,8 +11,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import br.com.cursomc.domain.enums.StatusPagamento;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -21,7 +22,6 @@ import lombok.NoArgsConstructor;
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @NoArgsConstructor
-@AllArgsConstructor
 @Inheritance(strategy = InheritanceType.JOINED)
 public abstract class Pagamento implements Serializable {
 
@@ -31,8 +31,17 @@ public abstract class Pagamento implements Serializable {
 	@EqualsAndHashCode.Include
 	private Integer id;
 
-	private int status;
+	private Integer status;
 
+	public StatusPagamento getStatus() {
+		return StatusPagamento.toEnum(status);
+	}
+
+	public void setStatus(StatusPagamento status) {
+		this.status = status.getCodigo();
+	}
+
+	@JsonBackReference
 	@OneToOne
 	@JoinColumn(name = "pedido_id", nullable = false,
 		foreignKey = @ForeignKey(name = "fk_pagamento_pedido_id",
@@ -40,7 +49,7 @@ public abstract class Pagamento implements Serializable {
 	@MapsId
 	private Pedido pedido;
 
-	protected Pagamento(Integer id, StatusPagamento status, Pedido pedido) {
+	public Pagamento(Integer id, StatusPagamento status, Pedido pedido) {
 		super();
 		this.id = id;
 		this.status = status.getCodigo();

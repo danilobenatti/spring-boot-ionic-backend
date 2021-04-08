@@ -11,13 +11,13 @@ import br.com.cursomc.domain.Categoria;
 import br.com.cursomc.services.CategoriaService;
 
 @RestController
-@RequestMapping(value = "/categorias")
+@RequestMapping(path = "/categorias")
 public class CategoriaResource {
 	
 	@Autowired
 	private CategoriaService service;
 	
-	@GetMapping(value = "/{id}")
+	@GetMapping(path = "/{id}")
 	public ResponseEntity<Categoria> find(@PathVariable Integer id) {
 		Categoria categoria = service.buscar(id);
 		return ResponseEntity.ok().body(categoria);
