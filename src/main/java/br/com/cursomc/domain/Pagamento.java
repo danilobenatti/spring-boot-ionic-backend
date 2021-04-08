@@ -3,6 +3,7 @@ package br.com.cursomc.domain;
 import java.io.Serializable;
 
 import javax.persistence.Entity;
+import javax.persistence.ForeignKey;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
@@ -33,7 +34,9 @@ public abstract class Pagamento implements Serializable {
 	private int status;
 
 	@OneToOne
-	@JoinColumn(name = "pedido_id")
+	@JoinColumn(name = "pedido_id", nullable = false,
+		foreignKey = @ForeignKey(name = "fk_pagamento_pedido_id",
+		foreignKeyDefinition = "foreign key (pedido_id) references pedido(id) on delete cascade"))
 	@MapsId
 	private Pedido pedido;
 

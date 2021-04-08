@@ -12,3 +12,4 @@ insert into pagamento(pedido_id,status) values (1,2);
 insert into pagamento_com_cartao(pedido_id,numero_de_parcelas) values (1,6);
 insert into pagamento(pedido_id,status) values (2,1);
 insert into pagamento_com_boleto(pedido_id,data_pagamento,data_vencimento) values (2,null,'2017-10-20 00:00');
+insert into item_pedido(pedido_id,produto_id,desconto,quantidade,preco) values (1,1,0.00,1,2000.00),(1,3,0.00,2,80.0),(2,2,100.00,1,800.00);
