@@ -1,6 +1,7 @@
 package br.com.cursomc.resources.exceptions;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,6 +18,6 @@ public class StandardError implements Serializable{
 	
 	private String msg;
 	
-	private Long timestamp;
+	private LocalDate timeStamp;
 
 }

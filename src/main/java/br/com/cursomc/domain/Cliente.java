@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CollectionTable;
+import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.ForeignKey;
@@ -14,19 +15,31 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import br.com.cursomc.domain.enums.TipoCliente;
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Entity
-@Data
+@Getter
+@Setter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@Entity
+@Table(name = "cliente")
 public class Cliente implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -40,7 +53,7 @@ public class Cliente implements Serializable {
 
 	private String email;
 
-	private String cpfoucnpj;
+	private String cpfOuCnpj;
 
 	private Integer tipo;
 
@@ -52,25 +65,32 @@ public class Cliente implements Serializable {
 		this.tipo = tipo.getCodigo();
 	}
 
+	@Builder.Default
+	@JsonManagedReference
+	@Fetch(value = FetchMode.JOIN)
 	@OneToMany(mappedBy = "cliente")
 	private List<Endereco> enderecos = new ArrayList<>();
 
+	@Builder.Default
+	@Fetch(value = FetchMode.SELECT)
 	@ElementCollection
-	@CollectionTable(name = "telefone", 
-		uniqueConstraints = @UniqueConstraint(name = "uk_telefones", columnNames = {"telefones"}),
-		foreignKey = @ForeignKey(name = "fk_telefone_cliente_id", 
+	@CollectionTable(name = "telefone",
+		uniqueConstraints = @UniqueConstraint(name = "uk_telefone__numero", columnNames = {"numero"}),
+		foreignKey = @ForeignKey(name = "fk_telefone__cliente_id", 
 		foreignKeyDefinition = "foreign key (cliente_id) references cliente(id) on delete cascade"))
+	@Column(name = "numero")
 	private Set<String> telefones = new HashSet<>();
 
-	public Cliente(Integer id, String nome, String email, String cpfoucnpj, TipoCliente tipo) {
+	public Cliente(Integer id, String nome, String email, String cpfOuCnpj, TipoCliente tipo) {
 		super();
 		this.id = id;
 		this.nome = nome;
 		this.email = email;
-		this.cpfoucnpj = cpfoucnpj;
+		this.cpfOuCnpj = cpfOuCnpj;
 		this.tipo = tipo.getCodigo();
 	}
 
+	@Builder.Default
 	@JsonIgnore
 	@OneToMany(mappedBy = "cliente")
 	private transient List<Pedido> pedidos = new ArrayList<>();

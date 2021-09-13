@@ -1,6 +1,7 @@
 package br.com.cursomc.resources;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,9 +18,9 @@ public class PedidoResource {
 	@Autowired(required = true)
 	private PedidoService service;
 
-	@GetMapping(path = "/{id}")
+	@GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Pedido> find(@PathVariable Integer id) {
-		Pedido pedido = service.buscar(id);
+		var pedido = service.buscarUmPedido(id);
 		return ResponseEntity.ok().body(pedido);
 	}
 

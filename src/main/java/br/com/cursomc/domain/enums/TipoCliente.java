@@ -24,7 +24,8 @@ public enum TipoCliente {
 				return iterable;
 			}
 		}
-		throw new IllegalArgumentException("Código " + codigo + " inválido para tipo de cliente");
+		throw new IllegalArgumentException(
+				"Código [" + codigo + "] inválido para tipo de cliente");
 	}
 
 }

@@ -10,17 +10,25 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Entity
-@Data
+@Getter
+@Setter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
+@Entity
+@Table(name = "cidade")
 public class Cidade implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -33,9 +41,10 @@ public class Cidade implements Serializable {
 	@Column(length = 30)
 	private String nome;
 
+	@JsonManagedReference
 	@ManyToOne(targetEntity = Estado.class, optional = false)
 	@JoinColumn(name = "estado_id", nullable = false, 
-		foreignKey = @ForeignKey(name = "fk_cidade_estado_id", 
+		foreignKey = @ForeignKey(name = "fk_cidade__estado_id", 
 		foreignKeyDefinition = "foreign key (estado_id) references estado(id) on delete cascade"))
 	private Estado estado;
 

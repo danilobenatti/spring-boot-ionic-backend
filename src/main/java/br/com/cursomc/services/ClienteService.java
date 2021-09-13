@@ -11,14 +11,15 @@ import br.com.cursomc.services.exceptions.ObjectNotFoundException;
 
 @Service
 public class ClienteService {
-	
+
 	@Autowired
 	private ClienteRepository repository;
-	
-	public Cliente buscar(Integer id) {
+
+	public Cliente buscarUmCliente(Integer id) {
 		Optional<Cliente> optional = repository.findById(id);
-		return optional.orElseThrow(() -> new ObjectNotFoundException(
-				"Objeto não encontrado! ID: " + id + ", tipo: " + Cliente.class.getName()));
+		return optional.orElseThrow(
+				() -> new ObjectNotFoundException("Objeto não encontrado! ID: "
+						+ id + ", tipo: " + Cliente.class.getName()));
 	}
 
 }

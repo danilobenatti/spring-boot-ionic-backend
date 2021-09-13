@@ -9,19 +9,25 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Entity
-@Data
+@Getter
+@Setter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
+@Entity
+@Table(name = "endereco")
 public class Endereco implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -41,16 +47,16 @@ public class Endereco implements Serializable {
 
 	private String cep;
 
-	@JsonIgnore
+	@JsonBackReference
 	@ManyToOne(targetEntity = Cliente.class, optional = false)
 	@JoinColumn(name = "cliente_id", nullable = false,
-		foreignKey = @ForeignKey(name = "fk_endereco_cliente_id", 
+		foreignKey = @ForeignKey(name = "fk_endereco__cliente_id", 
 		foreignKeyDefinition = "foreign key (cliente_id) references cliente(id) on delete cascade"))
 	private Cliente cliente;
 
 	@ManyToOne(targetEntity = Cidade.class, optional = false)
 	@JoinColumn(name = "cidade_id", nullable = false, 
-		foreignKey = @ForeignKey(name = "fk_endereco_cidade_id",
+		foreignKey = @ForeignKey(name = "fk_endereco__cidade_id",
 		foreignKeyDefinition = "foreign key (cidade_id) references cidade(id) on delete cascade"))
 	private Cidade cidade;
 
