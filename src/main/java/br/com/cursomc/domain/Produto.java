@@ -76,13 +76,10 @@ public class Produto implements Serializable {
 
 	@JsonIgnore
 	public List<Pedido> getPedidos() {
-
 		List<Pedido> lista = new ArrayList<>();
-
 		for (ItemPedido itemPedido : itens) {
 			lista.add(itemPedido.getPedido());
 		}
-
 		return lista;
 	}
 

@@ -24,7 +24,8 @@ public enum StatusPagamento {
 				return iterable;
 			}
 		}
-		throw new IllegalArgumentException("Código " + codigo + " inválido para tipo de pagamento");
+		throw new IllegalArgumentException(
+				"Código [" + codigo + "] inválido para tipo de pagamento");
 	}
 
 }

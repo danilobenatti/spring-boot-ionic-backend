@@ -7,16 +7,20 @@ import javax.persistence.Entity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import br.com.cursomc.domain.enums.StatusPagamento;
+import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
-@Entity
 @Getter
 @Setter
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
+@AllArgsConstructor
+@SuperBuilder
+@Entity
 public class PagamentoComBoleto extends Pagamento {
 
 	private static final long serialVersionUID = 1L;
@@ -27,7 +31,8 @@ public class PagamentoComBoleto extends Pagamento {
 	@JsonFormat(pattern = "dd/MM/yyyy")
 	private Date dataPagamento;
 
-	public PagamentoComBoleto(Integer id, StatusPagamento status, Pedido pedido, Date dataVencimento, Date dataPagamento) {
+	public PagamentoComBoleto(Integer id, StatusPagamento status, Pedido pedido,
+			Date dataVencimento, Date dataPagamento) {
 		super(id, status, pedido);
 		this.dataVencimento = dataVencimento;
 		this.dataPagamento = dataPagamento;

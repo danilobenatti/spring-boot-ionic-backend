@@ -17,18 +17,22 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
-@Entity
-@Data
+@Getter
+@Setter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @NoArgsConstructor
-@RequiredArgsConstructor
+@AllArgsConstructor
+@Builder
+@Entity
 public class Pedido implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -36,30 +40,30 @@ public class Pedido implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@EqualsAndHashCode.Include
-	@NonNull
 	private Integer id;
 
-	@JsonFormat(pattern = "dd/MM/yyyy hh:mm")
-	@NonNull
+	@JsonFormat(pattern = "dd/MM/yyyy HH:mm")
 	private Date instante;
 
-	@OneToOne(cascade = CascadeType.ALL, mappedBy = "pedido")
+	@JsonManagedReference
+	@OneToOne(mappedBy = "pedido", cascade = CascadeType.ALL)
 	private Pagamento pagamento;
 
+	@JsonManagedReference
 	@ManyToOne
 	@JoinColumn(name = "cliente_id", nullable = false,
 		foreignKey = @ForeignKey(name= "fk_pedido_cliente_id",
 		foreignKeyDefinition = "foreign key (cliente_id) references cliente(id) on delete cascade"))
-	@NonNull
 	private Cliente cliente;
 
 	@ManyToOne
 	@JoinColumn(name = "endereco_entrega_id", nullable = false, 
-		foreignKey = @ForeignKey(name = "fk_pedido_enderecoentrega_id",
+		foreignKey = @ForeignKey(name = "fk_pedido__enderecoentrega_id",
 		foreignKeyDefinition = "foreign key (endereco_entrega_id) references endereco(id) on delete cascade"))
-	@NonNull
 	private Endereco enderecoDeEntrega;
 
+	@Builder.Default
 	@OneToMany(mappedBy = "id.pedido")
 	private Set<ItemPedido> itens = new HashSet<>();
+
 }

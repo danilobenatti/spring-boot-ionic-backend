@@ -1,5 +1,11 @@
 package br.com.cursomc.config;
 
+import static br.com.cursomc.domain.enums.StatusPagamento.PENDENTE;
+import static br.com.cursomc.domain.enums.StatusPagamento.QUITADO;
+import static br.com.cursomc.domain.enums.TipoCliente.PESSOAFISICA;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -14,13 +20,20 @@ import br.com.cursomc.domain.Cidade;
 import br.com.cursomc.domain.Cliente;
 import br.com.cursomc.domain.Endereco;
 import br.com.cursomc.domain.Estado;
+import br.com.cursomc.domain.ItemPedido;
+import br.com.cursomc.domain.Pagamento;
+import br.com.cursomc.domain.PagamentoComBoleto;
+import br.com.cursomc.domain.PagamentoComCartao;
+import br.com.cursomc.domain.Pedido;
 import br.com.cursomc.domain.Produto;
-import br.com.cursomc.domain.enums.TipoCliente;
 import br.com.cursomc.repositories.CategoriaRepository;
 import br.com.cursomc.repositories.CidadeRepository;
 import br.com.cursomc.repositories.ClienteRepository;
 import br.com.cursomc.repositories.EnderecoRepository;
 import br.com.cursomc.repositories.EstadoRepository;
+import br.com.cursomc.repositories.ItemPedidoRepository;
+import br.com.cursomc.repositories.PagamentoRepository;
+import br.com.cursomc.repositories.PedidoRepository;
 import br.com.cursomc.repositories.ProdutoRepository;
 
 @Configuration
@@ -33,21 +46,24 @@ public class LoadDatabase {
 			EstadoRepository estadoRepository,
 			CidadeRepository cidadeRepository,
 			ClienteRepository clienteRepository,
-			EnderecoRepository enderecoRepository) {
+			EnderecoRepository enderecoRepository,
+			PedidoRepository pedidoRepository,
+			PagamentoRepository pagamentoRepository,
+			ItemPedidoRepository itemPedidoRepository) throws ParseException {
 
 		var cat1 = Categoria.builder().nome("Informática").build();
 		var cat2 = Categoria.builder().nome("Escritório").build();
 		var categorias = new ArrayList<Categoria>();
 		categorias.addAll(List.of(cat1, cat2));
 
+		var prd1 = Produto.builder().nome("Computador").preco(2000.00)
+				.categorias(List.of(cat1)).build();
+		var prd2 = Produto.builder().nome("Impressora").preco(800.00)
+				.categorias(List.of(cat1, cat2)).build();
+		var prd3 = Produto.builder().nome("Mouse").preco(80.00)
+				.categorias(List.of(cat1)).build();
 		var produtos = new ArrayList<Produto>();
-		produtos.addAll(List.of(
-				Produto.builder().nome("Computador").preco(2000.00)
-						.categorias(List.of(cat1)).build(),
-				Produto.builder().nome("Impressora").preco(800.00)
-						.categorias(List.of(cat1, cat2)).build(),
-				Produto.builder().nome("Mouse").preco(80.00)
-						.categorias(List.of(cat1)).build()));
+		produtos.addAll(List.of(prd1, prd2, prd3));
 
 		var est1 = Estado.builder().nome("Minas Gerais").sigla("MG").build();
 		var est2 = Estado.builder().nome("São Paulo").sigla("SP").build();
@@ -62,7 +78,7 @@ public class LoadDatabase {
 
 		var clie1 = Cliente.builder().nome("Maria Silva")
 				.email("maria@gmail.com").cpfOuCnpj("363262161-00")
-				.tipo(TipoCliente.PESSOAFISICA.getCodigo())
+				.tipo(PESSOAFISICA.getCodigo())
 				.telefones(Set.of("98889696", "22223333")).build();
 		var clientes = new ArrayList<Cliente>();
 		clientes.addAll(List.of(clie1));
@@ -76,6 +92,32 @@ public class LoadDatabase {
 		var enderecos = new ArrayList<Endereco>();
 		enderecos.addAll(List.of(end1, end2));
 
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+
+		var ped1 = Pedido.builder()
+				.instante(dateFormat.parse("30/09/2017 10:32")).cliente(clie1)
+				.enderecoDeEntrega(end1).build();
+		var ped2 = Pedido.builder()
+				.instante(dateFormat.parse("10/10/2017 19:35")).cliente(clie1)
+				.enderecoDeEntrega(end2).build();
+		var pedidos = new ArrayList<Pedido>();
+
+		var pgto1 = PagamentoComCartao.builder().pedido(ped1)
+				.numeroDeParcelas(6).status(QUITADO.getCodigo()).build();
+		var pgto2 = PagamentoComBoleto.builder().pedido(ped2)
+				.dataVencimento(dateFormat.parse("20/10/2017 00:00"))
+				.dataPagamento(null).status(PENDENTE.getCodigo()).build();
+		var pagamentos = new ArrayList<Pagamento>();
+		pagamentos.addAll(List.of(pgto1, pgto2));
+
+		var itmPd1 = new ItemPedido(ped1, prd1, 0.00, 1, 2000.00);
+		var itmPd2 = new ItemPedido(ped1, prd3, 0.00, 2, 80.00);
+		var itmPd3 = new ItemPedido(ped2, prd2, 100.00, 1, 800.00);
+		var itensPedido = new ArrayList<ItemPedido>();
+		itensPedido.addAll(List.of(itmPd1, itmPd2, itmPd3));
+
+		pedidos.addAll(List.of(ped1, ped2));
+
 		return args -> {
 			categoriaRepository.saveAll(categorias);
 			produtoRepository.saveAll(produtos);
@@ -83,6 +125,9 @@ public class LoadDatabase {
 			cidadeRepository.saveAll(cidades);
 			clienteRepository.saveAll(clientes);
 			enderecoRepository.saveAll(enderecos);
+			pagamentoRepository.saveAll(pagamentos);
+			itemPedidoRepository.saveAll(itensPedido);
+			pedidoRepository.saveAll(pedidos);
 		};
 	}
 }

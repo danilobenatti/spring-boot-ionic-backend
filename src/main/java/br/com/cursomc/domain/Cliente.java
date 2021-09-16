@@ -21,7 +21,7 @@ import javax.persistence.UniqueConstraint;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import br.com.cursomc.domain.enums.TipoCliente;
@@ -90,8 +90,8 @@ public class Cliente implements Serializable {
 		this.tipo = tipo.getCodigo();
 	}
 
+	@JsonBackReference
 	@Builder.Default
-	@JsonIgnore
 	@OneToMany(mappedBy = "cliente")
 	private transient List<Pedido> pedidos = new ArrayList<>();
 

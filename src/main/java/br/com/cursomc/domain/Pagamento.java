@@ -11,19 +11,25 @@ import javax.persistence.JoinColumn;
 import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import br.com.cursomc.domain.enums.StatusPagamento;
-import lombok.Data;
+import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
-@Entity
-@Data
+@Getter
+@Setter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @NoArgsConstructor
+@AllArgsConstructor
+@SuperBuilder
 @Inheritance(strategy = InheritanceType.JOINED)
-public class Pagamento implements Serializable {
+@Entity
+public abstract class Pagamento implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -41,7 +47,7 @@ public class Pagamento implements Serializable {
 		this.status = status.getCodigo();
 	}
 
-	@JsonIgnore
+	@JsonBackReference
 	@OneToOne
 	@JoinColumn(name = "pedido_id", nullable = false,
 		foreignKey = @ForeignKey(name = "fk_pagamento_pedido_id",
