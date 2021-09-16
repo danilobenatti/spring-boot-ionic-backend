@@ -49,6 +49,22 @@ public class Produto implements Serializable {
 
 	private Double preco;
 
+	public Produto(Integer id, String nome, Double preco) {
+		super();
+		this.id = id;
+		this.nome = nome;
+		this.preco = preco;
+	}
+
+	@JsonIgnore
+	public List<Pedido> getPedidos() {
+		List<Pedido> lista = new ArrayList<>();
+		for (ItemPedido itemPedido : itens) {
+			lista.add(itemPedido.getPedido());
+		}
+		return lista;
+	}
+
 	@Builder.Default
 	@JsonBackReference
 	@ManyToMany
@@ -62,25 +78,9 @@ public class Produto implements Serializable {
 				foreignKeyDefinition = "foreign key (categoria_id) references categoria(id) on delete cascade")))
 	private List<Categoria> categorias = new ArrayList<>();
 
-	public Produto(Integer id, String nome, Double preco) {
-		super();
-		this.id = id;
-		this.nome = nome;
-		this.preco = preco;
-	}
-
 	@Builder.Default
 	@JsonIgnore
 	@OneToMany(mappedBy = "id.produto")
 	private transient Set<ItemPedido> itens = new HashSet<>();
-
-	@JsonIgnore
-	public List<Pedido> getPedidos() {
-		List<Pedido> lista = new ArrayList<>();
-		for (ItemPedido itemPedido : itens) {
-			lista.add(itemPedido.getPedido());
-		}
-		return lista;
-	}
 
 }

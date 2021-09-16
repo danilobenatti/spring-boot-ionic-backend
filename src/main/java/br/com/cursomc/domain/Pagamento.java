@@ -55,7 +55,7 @@ public abstract class Pagamento implements Serializable {
 	@MapsId
 	private Pedido pedido;
 
-	public Pagamento(Integer id, StatusPagamento status, Pedido pedido) {
+	protected Pagamento(Integer id, StatusPagamento status, Pedido pedido) {
 		super();
 		this.id = id;
 		this.status = status.getCodigo();

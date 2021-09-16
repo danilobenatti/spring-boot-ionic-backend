@@ -41,7 +41,7 @@ import br.com.cursomc.repositories.ProdutoRepository;
 public class LoadDatabase {
 
 	@Bean
-	CommandLineRunner runner(CategoriaRepository categoriaRepository,
+	CommandLineRunner runner(CategoriaRepository categoriaRepository, 
 			ProdutoRepository produtoRepository,
 			EstadoRepository estadoRepository,
 			CidadeRepository cidadeRepository,
