@@ -20,7 +20,7 @@ public class CidadeResource {
 
 	@GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Cidade> find(@PathVariable Integer id) {
-		var categoria = service.buscarUmaCidade(id);
+		var categoria = service.findOneCidade(id);
 		return ResponseEntity.ok().body(categoria);
 	}
 

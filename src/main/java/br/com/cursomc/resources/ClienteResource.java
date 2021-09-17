@@ -20,7 +20,7 @@ public class ClienteResource {
 
 	@GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Cliente> find(@PathVariable Integer id) {
-		var cliente = service.buscarUmCliente(id);
+		var cliente = service.findOneCliente(id);
 		return ResponseEntity.ok().body(cliente);
 	}
 
