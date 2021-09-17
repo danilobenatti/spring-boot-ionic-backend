@@ -14,7 +14,8 @@ import javax.persistence.Table;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -31,6 +32,8 @@ import lombok.Setter;
 @Builder
 @Entity
 @Table(name = "categoria")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, 
+	property = "id")
 public class Categoria implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -43,7 +46,7 @@ public class Categoria implements Serializable {
 	private String nome;
 
 	@Builder.Default
-	@JsonManagedReference
+//	@JsonManagedReference
 	@Fetch(value =FetchMode.JOIN)
 	@ManyToMany(mappedBy = "categorias")
 	private List<Produto> produtos = new ArrayList<>();

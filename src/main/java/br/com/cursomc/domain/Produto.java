@@ -19,7 +19,9 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -36,6 +38,8 @@ import lombok.Setter;
 @Builder
 @Entity
 @Table(name = "produto")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, 
+	property = "id")
 public class Produto implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -69,12 +73,13 @@ public class Produto implements Serializable {
 	@JsonBackReference
 	@ManyToMany
 	@JoinTable(name = "produto_categoria", 
-		uniqueConstraints = @UniqueConstraint(name = "uk_produtoid_categoriaid", columnNames = {"produto_id","categoria_id"}),
-			joinColumns = @JoinColumn(name = "produto_id", nullable = false,
-				foreignKey = @ForeignKey(name = "fk_produto__produto_id", 
-				foreignKeyDefinition = "foreign key (produto_id) references produto(id) on delete cascade")),
-			inverseJoinColumns = @JoinColumn(name = "categoria_id", nullable = false,
-				foreignKey = @ForeignKey(name = "fk_produto__categoria_id", 
+		uniqueConstraints = @UniqueConstraint(name = "uk_produtoid_categoriaid", 
+			columnNames = {"produto_id", "categoria_id"}), 
+		joinColumns = @JoinColumn(name = "produto_id", nullable = false, 
+			foreignKey = @ForeignKey(name = "fk_produto__produto_id", 
+				foreignKeyDefinition = "foreign key (produto_id) references produto(id) on delete cascade")), 
+		inverseJoinColumns = @JoinColumn(name = "categoria_id", nullable = false, 
+			foreignKey = @ForeignKey(name = "fk_produto__categoria_id", 
 				foreignKeyDefinition = "foreign key (categoria_id) references categoria(id) on delete cascade")))
 	private List<Categoria> categorias = new ArrayList<>();
 
