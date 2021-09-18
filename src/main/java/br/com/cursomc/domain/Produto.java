@@ -77,10 +77,10 @@ public class Produto implements Serializable {
 			columnNames = {"produto_id", "categoria_id"}), 
 		joinColumns = @JoinColumn(name = "produto_id", nullable = false, 
 			foreignKey = @ForeignKey(name = "fk_produto__produto_id", 
-				foreignKeyDefinition = "foreign key (produto_id) references produto(id) on delete cascade")), 
+				foreignKeyDefinition = "foreign key (produto_id) references produto(id) on delete restrict")), 
 		inverseJoinColumns = @JoinColumn(name = "categoria_id", nullable = false, 
 			foreignKey = @ForeignKey(name = "fk_produto__categoria_id", 
-				foreignKeyDefinition = "foreign key (categoria_id) references categoria(id) on delete cascade")))
+				foreignKeyDefinition = "foreign key (categoria_id) references categoria(id) on delete restrict")))
 	private List<Categoria> categorias = new ArrayList<>();
 
 	@Builder.Default
