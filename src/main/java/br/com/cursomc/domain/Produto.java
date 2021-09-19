@@ -18,10 +18,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -38,8 +35,6 @@ import lombok.Setter;
 @Builder
 @Entity
 @Table(name = "produto")
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, 
-	property = "id")
 public class Produto implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -70,7 +65,7 @@ public class Produto implements Serializable {
 	}
 
 	@Builder.Default
-	@JsonBackReference
+	@JsonIgnore
 	@ManyToMany
 	@JoinTable(name = "produto_categoria", 
 		uniqueConstraints = @UniqueConstraint(name = "uk_produtoid_categoriaid", 

@@ -1,5 +1,6 @@
 package br.com.cursomc.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,7 @@ public class CategoriaService {
 	@Autowired
 	private CategoriaRepository repository;
 
-	public Categoria findOneCategoria(Integer id) {
+	public Categoria find(Integer id) {
 		Optional<Categoria> optional = repository.findById(id);
 		return optional.orElseThrow(
 				() -> new ObjectNotFoundException("Objeto não encontrado! ID: "
@@ -30,18 +31,22 @@ public class CategoriaService {
 	}
 
 	public Categoria update(Categoria obj) {
-		findOneCategoria(obj.getId());
+		find(obj.getId());
 		return repository.save(obj);
 	}
 
 	public void delete(Integer id) {
-		findOneCategoria(id);
+		find(id);
 		try {
 			repository.deleteById(id);
 		} catch (DataIntegrityViolationException e) {
 			throw new DataIntegrityException(
 					"Não é possível excluir uma categoria que possui produtos");
 		}
+	}
+
+	public List<Categoria> findAll() {
+		return repository.findAll();
 	}
 
 }
