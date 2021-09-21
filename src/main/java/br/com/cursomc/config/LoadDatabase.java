@@ -53,8 +53,13 @@ public class LoadDatabase {
 
 		var cat1 = Categoria.builder().nome("Informática").build();
 		var cat2 = Categoria.builder().nome("Escritório").build();
+		var cat3 = Categoria.builder().nome("Cama, mesa e banho").build();
+		var cat4 = Categoria.builder().nome("Eletrônicos").build();
+		var cat5 = Categoria.builder().nome("Decoração").build();
+		var cat6 = Categoria.builder().nome("Jardinagem").build();
+		var cat7 = Categoria.builder().nome("Perfumaria").build();
 		var categorias = new ArrayList<Categoria>();
-		categorias.addAll(List.of(cat1, cat2));
+		categorias.addAll(List.of(cat1, cat2, cat3, cat4, cat5, cat6, cat7));
 
 		var prd1 = Produto.builder().nome("Computador").preco(2000.00)
 				.categorias(List.of(cat1)).build();
