@@ -4,6 +4,8 @@ import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
@@ -36,10 +38,11 @@ public class CategoriaResource {
 		return ResponseEntity.ok().body(categoria);
 	}
 
-	@PostMapping(path = {"",
-			"/"}, produces = MediaType.APPLICATION_JSON_VALUE, 
+	@PostMapping(path = {"","/"}, produces = MediaType.APPLICATION_JSON_VALUE,
 			consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Void> insert(@RequestBody Categoria obj) {
+	public ResponseEntity<Void> insert(
+			@Valid @RequestBody CategoriaDTO objDto) {
+		var obj = service.fromDTO(objDto);
 		obj = service.insert(obj);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
 				.buildAndExpand(obj.getId()).toUri();
@@ -48,8 +51,9 @@ public class CategoriaResource {
 
 	@PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, 
 			consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Void> update(@RequestBody Categoria obj,
+	public ResponseEntity<Void> update(@Valid @RequestBody CategoriaDTO objDto,
 			@PathVariable Integer id) {
+		var obj = service.fromDTO(objDto);
 		obj.setId(id);
 		obj = service.update(obj);
 		return ResponseEntity.noContent().build();
