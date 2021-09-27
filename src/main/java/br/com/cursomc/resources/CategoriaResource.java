@@ -83,4 +83,5 @@ public class CategoriaResource {
 		var categoriasDto = categorias.map(obj -> new CategoriaDTO(obj));
 		return ResponseEntity.ok().body(categoriasDto);
 	}
+
 }
