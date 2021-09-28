@@ -67,10 +67,10 @@ public class CategoriaResource {
 
 	@GetMapping(path = {"", "/"}, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<CategoriaDTO>> findAll() {
-		var categorias = service.findAll();
-		var categoriasDto = categorias.stream()
+		var list = service.findAll();
+		var listDto = list.stream()
 				.map(obj -> new CategoriaDTO(obj)).collect(Collectors.toList());
-		return ResponseEntity.ok().body(categoriasDto);
+		return ResponseEntity.ok().body(listDto);
 	}
 
 	@GetMapping(path = {"/page"}, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -79,9 +79,9 @@ public class CategoriaResource {
 			@RequestParam(name = "size", defaultValue = "24") Integer size,
 			@RequestParam(name = "direction", defaultValue = "ASC") String direction,
 			@RequestParam(name = "orderBy", defaultValue = "nome") String orderBy) {
-		var categorias = service.findPage(page, size, direction, orderBy);
-		var categoriasDto = categorias.map(obj -> new CategoriaDTO(obj));
-		return ResponseEntity.ok().body(categoriasDto);
+		var list = service.findPage(page, size, direction, orderBy);
+		var listDto = list.map(obj -> new CategoriaDTO(obj));
+		return ResponseEntity.ok().body(listDto);
 	}
 
 }

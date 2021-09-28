@@ -31,6 +31,7 @@ public class CategoriaService {
 
 	public Categoria insert(Categoria obj) {
 		obj.setId(null);
+		obj.setNome(obj.getNome().strip());
 		return repository.save(obj);
 	}
 
