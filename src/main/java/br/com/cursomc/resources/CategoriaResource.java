@@ -69,7 +69,7 @@ public class CategoriaResource {
 	public ResponseEntity<List<CategoriaDTO>> findAll() {
 		var list = service.findAll();
 		var listDto = list.stream()
-				.map(obj -> new CategoriaDTO(obj)).collect(Collectors.toList());
+				.map(CategoriaDTO::new).collect(Collectors.toList());
 		return ResponseEntity.ok().body(listDto);
 	}
 
@@ -80,7 +80,7 @@ public class CategoriaResource {
 			@RequestParam(name = "direction", defaultValue = "ASC") String direction,
 			@RequestParam(name = "orderBy", defaultValue = "nome") String orderBy) {
 		var list = service.findPage(page, size, direction, orderBy);
-		var listDto = list.map(obj -> new CategoriaDTO(obj));
+		var listDto = list.map(CategoriaDTO::new);
 		return ResponseEntity.ok().body(listDto);
 	}
 
