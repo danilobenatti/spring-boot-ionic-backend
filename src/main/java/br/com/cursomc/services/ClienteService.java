@@ -14,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 import br.com.cursomc.domain.Cidade;
 import br.com.cursomc.domain.Cliente;
 import br.com.cursomc.domain.Endereco;
-import br.com.cursomc.domain.enums.TipoCliente;
 import br.com.cursomc.dto.ClienteDTO;
 import br.com.cursomc.dto.ClienteNewDTO;
 import br.com.cursomc.repositories.ClienteRepository;
@@ -84,18 +83,20 @@ public class ClienteService {
 	}
 
 	public Cliente fromDTO(ClienteNewDTO objDto) {
-		var cli = new Cliente(null, objDto.getNome(), objDto.getEmail(),
-				objDto.getCpfOuCnpj(), TipoCliente.toEnum(objDto.getTipo()));
-		var cid = new Cidade(objDto.getCidadeId(), null, null);
-		var end = new Endereco(null, objDto.getLogradouro(), objDto.getNumero(),
-				objDto.getComplemento(), objDto.getBairro(), objDto.getCep(),
-				cli, cid);
+		var cli = Cliente.builder().nome(objDto.getNome())
+				.email(objDto.getEmail()).cpfOuCnpj(objDto.getCpfOuCnpj())
+				.tipo(objDto.getTipo()).build();
+		var cid = Cidade.builder().id(objDto.getCidadeId()).build();
+		var end = Endereco.builder().logradouro(objDto.getLogradouro())
+				.numero(objDto.getNumero()).complemento(objDto.getComplemento())
+				.bairro(objDto.getBairro()).cep(objDto.getCep()).cliente(cli)
+				.cidade(cid).build();
 		cli.getEnderecos().add(end);
 		cli.getTelefones().add(objDto.getTelefone1());
-		if (!objDto.getTelefone2().isEmpty()) {
+		if (objDto.getTelefone2() != null && !objDto.getTelefone2().isBlank()) {
 			cli.getTelefones().add(objDto.getTelefone2());
 		}
-		if (!objDto.getTelefone3().isEmpty()) {
+		if (objDto.getTelefone3() != null && !objDto.getTelefone3().isBlank()) {
 			cli.getTelefones().add(objDto.getTelefone3());
 		}
 		return cli;
