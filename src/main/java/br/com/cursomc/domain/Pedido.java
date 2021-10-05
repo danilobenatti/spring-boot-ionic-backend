@@ -53,7 +53,7 @@ public class Pedido implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "cliente_id", nullable = false,
 		foreignKey = @ForeignKey(name= "fk_pedido_cliente_id",
-		foreignKeyDefinition = "foreign key (cliente_id) references cliente(id) on delete cascade"))
+		foreignKeyDefinition = "foreign key (cliente_id) references cliente(id)"))
 	private Cliente cliente;
 
 	@ManyToOne
