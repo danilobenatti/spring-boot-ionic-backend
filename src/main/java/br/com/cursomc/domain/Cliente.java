@@ -59,6 +59,7 @@ public class Cliente implements Serializable {
 
 	@NotBlank(message = "{Cliente.email.NotBlank}")
 	@Email(message = "{Cliente.email.Email}")
+	@Column(unique = true)
 	private String email;
 
 	private String cpfOuCnpj;
