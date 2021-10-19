@@ -18,6 +18,9 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -50,8 +53,12 @@ public class Cliente implements Serializable {
 	@EqualsAndHashCode.Include
 	private Integer id;
 
+	@NotBlank(message = "{Cliente.nome.NotBlank}")
+	@Size(min = 5, max = 50, message = "{Cliente.nome.Size}")
 	private String nome;
 
+	@NotBlank(message = "{Cliente.email.NotBlank}")
+	@Email(message = "{Cliente.email.Email}")
 	private String email;
 
 	private String cpfOuCnpj;

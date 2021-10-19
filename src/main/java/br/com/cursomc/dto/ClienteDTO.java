@@ -20,12 +20,12 @@ public class ClienteDTO implements Serializable {
 
 	private Integer id;
 
-	@NotBlank(message = "Nome do cliente é obrigatório, não pode ser nulo nem vazio.")
-	@Size(min = 5, max = 50, message = "Nome do cliente deve ter mínimo de 5 e máximo de 80 caracteres.")
+	@NotBlank(message = "{Cliente.nome.NotBlank}")
+	@Size(min = 5, max = 50, message = "{Cliente.nome.Size}")
 	private String nome;
 
-	@NotBlank(message = "Email é obrigatório, não pode ser nulo nem vazio.")
-	@Email(message = "Email inválido.")
+	@NotBlank(message = "{Cliente.email.NotBlank}")
+	@Email(message = "{Cliente.email.Email}")
 	private String email;
 
 	public ClienteDTO(Cliente cliente) {
