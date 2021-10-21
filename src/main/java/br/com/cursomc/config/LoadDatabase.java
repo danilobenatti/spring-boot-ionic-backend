@@ -41,7 +41,7 @@ import br.com.cursomc.repositories.ProdutoRepository;
 public class LoadDatabase {
 
 	@Bean
-	CommandLineRunner runner(CategoriaRepository categoriaRepository, 
+	CommandLineRunner runner(CategoriaRepository categoriaRepository,
 			ProdutoRepository produtoRepository,
 			EstadoRepository estadoRepository,
 			CidadeRepository cidadeRepository,
@@ -62,13 +62,30 @@ public class LoadDatabase {
 		categorias.addAll(List.of(cat1, cat2, cat3, cat4, cat5, cat6, cat7));
 
 		var prd1 = Produto.builder().nome("Computador").preco(2000.00)
-				.categorias(List.of(cat1)).build();
+				.categorias(List.of(cat1, cat4)).build();
 		var prd2 = Produto.builder().nome("Impressora").preco(800.00)
-				.categorias(List.of(cat1, cat2)).build();
+				.categorias(List.of(cat1, cat2, cat4)).build();
 		var prd3 = Produto.builder().nome("Mouse").preco(80.00)
-				.categorias(List.of(cat1)).build();
+				.categorias(List.of(cat1, cat4)).build();
+		var prd4 = Produto.builder().nome("Mesa de Escritório").preco(300.00)
+				.categorias(List.of(cat2)).build();
+		var prd5 = Produto.builder().nome("Toalha").preco(50.00)
+				.categorias(List.of(cat3)).build();
+		var prd6 = Produto.builder().nome("Colcha").preco(200.00)
+				.categorias(List.of(cat3)).build();
+		var prd7 = Produto.builder().nome("TV True Color").preco(1200.00)
+				.categorias(List.of(cat4)).build();
+		var prd8 = Produto.builder().nome("Roçadeira").preco(800.00)
+				.categorias(List.of(cat5)).build();
+		var prd9 = Produto.builder().nome("Abajour").preco(100.00)
+				.categorias(List.of(cat6)).build();
+		var prd10 = Produto.builder().nome("Luminária Pendente").preco(180.00)
+				.categorias(List.of(cat6)).build();
+		var prd11 = Produto.builder().nome("Shampoo").preco(90.00)
+				.categorias(List.of(cat7)).build();
 		var produtos = new ArrayList<Produto>();
-		produtos.addAll(List.of(prd1, prd2, prd3));
+		produtos.addAll(List.of(prd1, prd2, prd3, prd4, prd5, prd6, prd7, prd8,
+				prd9, prd10, prd11));
 
 		var est1 = Estado.builder().nome("Minas Gerais").sigla("MG").build();
 		var est2 = Estado.builder().nome("São Paulo").sigla("SP").build();
