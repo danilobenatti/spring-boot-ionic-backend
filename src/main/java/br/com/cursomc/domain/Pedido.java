@@ -49,6 +49,14 @@ public class Pedido implements Serializable {
 	@OneToOne(mappedBy = "pedido", cascade = CascadeType.ALL)
 	private Pagamento pagamento;
 
+	public Double getValorTotal() {
+		var soma = 0.0;
+		for (ItemPedido itemPedido : itens) {
+			soma = soma + itemPedido.getSubTotal();
+		}
+		return soma;
+	}
+
 	@JsonManagedReference
 	@ManyToOne
 	@JoinColumn(name = "cliente_id", nullable = false,
