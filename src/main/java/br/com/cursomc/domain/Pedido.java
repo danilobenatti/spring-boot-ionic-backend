@@ -57,7 +57,6 @@ public class Pedido implements Serializable {
 		return soma;
 	}
 
-	@JsonManagedReference
 	@ManyToOne
 	@JoinColumn(name = "cliente_id", nullable = false,
 		foreignKey = @ForeignKey(name= "fk_pedido_cliente_id",

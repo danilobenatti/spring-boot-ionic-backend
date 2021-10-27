@@ -41,7 +41,6 @@ public class Cidade implements Serializable {
 	@Column(length = 30)
 	private String nome;
 
-	@JsonManagedReference
 	@ManyToOne(targetEntity = Estado.class, optional = false)
 	@JoinColumn(name = "estado_id", nullable = false, 
 		foreignKey = @ForeignKey(name = "fk_cidade__estado_id", 

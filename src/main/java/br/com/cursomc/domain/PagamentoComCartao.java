@@ -2,6 +2,8 @@ package br.com.cursomc.domain;
 
 import javax.persistence.Entity;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
+
 import br.com.cursomc.domain.enums.StatusPagamento;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -16,6 +18,7 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder
+@JsonTypeName(value = "pagamentoComCartao")
 @Entity
 public class PagamentoComCartao extends Pagamento {
 
