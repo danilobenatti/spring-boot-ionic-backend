@@ -37,7 +37,7 @@ import br.com.cursomc.repositories.PedidoRepository;
 import br.com.cursomc.repositories.ProdutoRepository;
 
 @Configuration
-@Profile(value = "dev")
+@Profile(value = { "test", "dev", "prod" })
 public class LoadDatabase {
 
 	@Bean
