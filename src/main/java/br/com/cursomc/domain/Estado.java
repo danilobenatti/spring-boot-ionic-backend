@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -34,14 +35,15 @@ public class Estado implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@SequenceGenerator(name = "estado_id_seq", initialValue = 1)
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@EqualsAndHashCode.Include
 	private Integer id;
 
-	@Column(length = 20)
+	@Column(length = 20, nullable = false)
 	private String nome;
 
-	@Column(length = 2)
+	@Column(length = 2, nullable = false)
 	private String sigla;
 
 	@Builder.Default

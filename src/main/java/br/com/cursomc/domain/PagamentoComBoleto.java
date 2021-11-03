@@ -2,7 +2,10 @@ package br.com.cursomc.domain;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonTypeName;
@@ -23,11 +26,14 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @JsonTypeName(value = "pagamentoComBoleto")
 @Entity
+@Table(name = "pagamento_com_boleto")
 public class PagamentoComBoleto extends Pagamento {
 
 	private static final long serialVersionUID = 1L;
 
 	@JsonFormat(pattern = "dd/MM/yyyy")
+	@NotNull(message = "{PagamentoComBoleto.dataVencimento.NotNull}")
+	@Column(nullable = false)
 	private Date dataVencimento;
 
 	@JsonFormat(pattern = "dd/MM/yyyy")

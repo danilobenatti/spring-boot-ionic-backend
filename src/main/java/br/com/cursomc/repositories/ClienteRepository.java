@@ -13,7 +13,7 @@ import br.com.cursomc.domain.Cliente;
 @Repository
 public interface ClienteRepository extends JpaRepository<Cliente, Integer> {
 
-	@Query(name = "findById", value = " SELECT * FROM cliente cli "
+	@Query(value = " SELECT * FROM cliente cli "
 			+ " INNER JOIN endereco end ON end.cliente_id = cli.id "
 			+ " INNER JOIN cidade cid ON end.cidade_id = cid.id "
 			+ " INNER JOIN estado est ON cid.estado_id = est.id "

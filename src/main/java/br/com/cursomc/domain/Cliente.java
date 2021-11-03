@@ -16,6 +16,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Email;
@@ -26,7 +27,6 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import br.com.cursomc.domain.enums.TipoCliente;
 import lombok.AllArgsConstructor;
@@ -43,27 +43,34 @@ import lombok.Setter;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "cliente")
+@Table(name = "cliente",
+	uniqueConstraints = @UniqueConstraint(name = "uk_cliente__email", columnNames = "email"))
 public class Cliente implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@SequenceGenerator(name = "cliente_id_seq", initialValue = 1)
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@EqualsAndHashCode.Include
 	private Integer id;
 
 	@NotBlank(message = "{Cliente.nome.NotBlank}")
 	@Size(min = 5, max = 50, message = "{Cliente.nome.Size}")
+	@Column(length = 50, nullable = false)
 	private String nome;
 
 	@NotBlank(message = "{Cliente.email.NotBlank}")
 	@Email(message = "{Cliente.email.Email}")
-	@Column(unique = true)
+	@Column(nullable = false)
 	private String email;
 
+	@NotBlank(message = "{Cliente.cpfOuCnpj.NotBlank}")
+	@Column(length = 20, nullable = false)
 	private String cpfOuCnpj;
 
+//	@NotNull(message = "{Cliente.tipo.NotNull}")
+	@Column(nullable = false)
 	private Integer tipo;
 
 	public TipoCliente getTipo() {
@@ -75,7 +82,6 @@ public class Cliente implements Serializable {
 	}
 
 	@Builder.Default
-	@JsonManagedReference
 	@Fetch(value = FetchMode.JOIN)
 	@OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
 	private List<Endereco> enderecos = new ArrayList<>();
@@ -87,7 +93,7 @@ public class Cliente implements Serializable {
 		uniqueConstraints = @UniqueConstraint(name = "uk_telefone__numero", columnNames = {"numero"}),
 		foreignKey = @ForeignKey(name = "fk_telefone__cliente_id", 
 		foreignKeyDefinition = "foreign key (cliente_id) references cliente(id) on delete cascade"))
-	@Column(name = "numero")
+	@Column(name = "numero", length = 20, nullable = false)
 	private Set<String> telefones = new HashSet<>();
 
 	public Cliente(Integer id, String nome, String email, String cpfOuCnpj, TipoCliente tipo) {

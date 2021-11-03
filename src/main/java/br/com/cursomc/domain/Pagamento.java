@@ -2,6 +2,7 @@ package br.com.cursomc.domain;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ForeignKey;
 import javax.persistence.Id;
@@ -11,7 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import br.com.cursomc.domain.enums.StatusPagamento;
@@ -39,6 +40,7 @@ public abstract class Pagamento implements Serializable {
 	@EqualsAndHashCode.Include
 	private Integer id;
 
+	@Column(nullable = false)
 	private Integer status;
 
 	public StatusPagamento getStatus() {
@@ -49,10 +51,10 @@ public abstract class Pagamento implements Serializable {
 		this.status = status.getCodigo();
 	}
 
-	@JsonBackReference
+	@JsonIgnore
 	@OneToOne
 	@JoinColumn(name = "pedido_id", nullable = false,
-		foreignKey = @ForeignKey(name = "fk_pagamento_pedido_id",
+		foreignKey = @ForeignKey(name = "fk_pagamento__pedido_id",
 		foreignKeyDefinition = "foreign key (pedido_id) references pedido(id) on delete cascade"))
 	@MapsId
 	private Pedido pedido;

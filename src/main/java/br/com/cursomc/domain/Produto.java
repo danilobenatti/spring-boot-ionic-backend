@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
@@ -15,8 +16,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.PositiveOrZero;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -34,18 +38,24 @@ import lombok.Setter;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "produto")
+@Table(name = "produto",
+	uniqueConstraints = @UniqueConstraint(name= "uk_produto__nome", columnNames = "nome"))
 public class Produto implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@SequenceGenerator(name = "produto_id_seq", initialValue = 1)
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@EqualsAndHashCode.Include
 	private Integer id;
 
+	@NotBlank(message = "{Produto.nome.NotBlank}")
+	@Column(length = 150, nullable = false)
 	private String nome;
 
+	@PositiveOrZero(message = "{Produto.preco.PositiveOrZero}")
+	@Column(nullable = false, columnDefinition = "double DEFAULT 0")
 	private Double preco;
 
 	public Produto(Integer id, String nome, Double preco) {
