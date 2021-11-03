@@ -30,7 +30,6 @@ public class ClienteNewDTO implements Serializable{
 	@NotBlank(message = "{Cliente.cpfOuCnpj.NotBlank}")
 	private String cpfOuCnpj;
 
-//	@NotNull(message = "{Cliente.tipo.NotNull}")
 	private Integer tipo;
 
 	@NotBlank(message = "{Cliente.logradouro.NotBlank}")

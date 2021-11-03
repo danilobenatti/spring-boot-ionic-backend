@@ -69,7 +69,6 @@ public class Cliente implements Serializable {
 	@Column(length = 20, nullable = false)
 	private String cpfOuCnpj;
 
-//	@NotNull(message = "{Cliente.tipo.NotNull}")
 	@Column(nullable = false)
 	private Integer tipo;
 
