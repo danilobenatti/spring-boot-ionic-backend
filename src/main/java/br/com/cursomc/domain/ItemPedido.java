@@ -32,7 +32,7 @@ public class ItemPedido implements Serializable {
 	private ItemPedidoPK id = new ItemPedidoPK();
 
 	@PositiveOrZero(message = "{ItemPedido.desconto.PositiveOrZero}")
-	@Column(nullable = false, columnDefinition = "double DEFAULT 0")
+	@Column(nullable = false, columnDefinition = "double precision default 0")
 	private Double desconto;
 
 	@PositiveOrZero(message = "{ItemPedido.quantidade.PositiveOrZero}")

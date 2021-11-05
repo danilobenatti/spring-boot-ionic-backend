@@ -1,157 +1,630 @@
--- danilonb_mysql-springboot_ionic.categoria definition
+--
+-- PostgreSQL database dump
+--
 
-CREATE TABLE categoria (
-  id int NOT NULL AUTO_INCREMENT,
-  nome varchar(80) NOT NULL,
-  PRIMARY KEY (id),
-  UNIQUE KEY uk_categoria__nome (nome)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+-- Dumped from database version 14.0
+-- Dumped by pg_dump version 14.0
 
+--
+-- Name: categoria; Type: TABLE; Schema: public; Owner: root
+--
 
--- danilonb_mysql-springboot_ionic.cliente definition
-
-CREATE TABLE cliente (
-  id int NOT NULL AUTO_INCREMENT,
-  cpf_ou_cnpj varchar(20) NOT NULL,
-  email varchar(255) NOT NULL,
-  nome varchar(50) NOT NULL,
-  tipo int NOT NULL,
-  PRIMARY KEY (id),
-  UNIQUE KEY uk_cliente__email (email)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+CREATE TABLE public.categoria (
+    id integer NOT NULL,
+    nome character varying(80) NOT NULL
+);
 
 
--- danilonb_mysql-springboot_ionic.estado definition
+ALTER TABLE public.categoria OWNER TO root;
 
-CREATE TABLE estado (
-  id int NOT NULL AUTO_INCREMENT,
-  nome varchar(20) NOT NULL,
-  sigla varchar(2) NOT NULL,
-  PRIMARY KEY (id)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+--
+-- Name: categoria_id_seq; Type: SEQUENCE; Schema: public; Owner: root
+--
 
-
--- danilonb_mysql-springboot_ionic.produto definition
-
-CREATE TABLE produto (
-  id int NOT NULL AUTO_INCREMENT,
-  nome varchar(150) NOT NULL,
-  preco double NOT NULL DEFAULT '0',
-  PRIMARY KEY (id),
-  UNIQUE KEY uk_produto__nome (nome)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+CREATE SEQUENCE public.categoria_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
 
 
--- danilonb_mysql-springboot_ionic.cidade definition
+ALTER TABLE public.categoria_id_seq OWNER TO root;
 
-CREATE TABLE cidade (
-  id int NOT NULL AUTO_INCREMENT,
-  nome varchar(30) NOT NULL,
-  estado_id int NOT NULL,
-  PRIMARY KEY (id),
-  KEY fk_cidade__estado_id (estado_id),
-  CONSTRAINT fk_cidade__estado_id FOREIGN KEY (estado_id) REFERENCES estado (id) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+--
+-- Name: categoria_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: root
+--
+
+ALTER SEQUENCE public.categoria_id_seq OWNED BY public.categoria.id;
 
 
--- danilonb_mysql-springboot_ionic.endereco definition
+--
+-- Name: cidade; Type: TABLE; Schema: public; Owner: root
+--
 
-CREATE TABLE endereco (
-  id int NOT NULL AUTO_INCREMENT,
-  bairro varchar(25) DEFAULT NULL,
-  cep varchar(10) NOT NULL,
-  complemento varchar(15) DEFAULT NULL,
-  logradouro varchar(255) NOT NULL,
-  numero varchar(15) NOT NULL,
-  cidade_id int NOT NULL,
-  cliente_id int NOT NULL,
-  PRIMARY KEY (id),
-  KEY fk_endereco__cidade_id (cidade_id),
-  KEY fk_endereco__cliente_id (cliente_id),
-  CONSTRAINT fk_endereco__cidade_id FOREIGN KEY (cidade_id) REFERENCES cidade (id) ON DELETE RESTRICT,
-  CONSTRAINT fk_endereco__cliente_id FOREIGN KEY (cliente_id) REFERENCES cliente (id) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+CREATE TABLE public.cidade (
+    id integer NOT NULL,
+    nome character varying(30) NOT NULL,
+    estado_id integer NOT NULL
+);
 
 
--- danilonb_mysql-springboot_ionic.pedido definition
+ALTER TABLE public.cidade OWNER TO root;
 
-CREATE TABLE pedido (
-  id int NOT NULL AUTO_INCREMENT,
-  instante datetime(6) NOT NULL,
-  cliente_id int NOT NULL,
-  endereco_entrega_id int NOT NULL,
-  PRIMARY KEY (id),
-  KEY fk_pedido__cliente_id (cliente_id),
-  KEY fk_pedido__enderecoentrega_id (endereco_entrega_id),
-  CONSTRAINT fk_pedido__cliente_id FOREIGN KEY (cliente_id) REFERENCES cliente (id),
-  CONSTRAINT fk_pedido__enderecoentrega_id FOREIGN KEY (endereco_entrega_id) REFERENCES endereco (id) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+--
+-- Name: cidade_id_seq; Type: SEQUENCE; Schema: public; Owner: root
+--
 
-
--- danilonb_mysql-springboot_ionic.produto_categoria definition
-
-CREATE TABLE produto_categoria (
-  produto_id int NOT NULL,
-  categoria_id int NOT NULL,
-  UNIQUE KEY uk_produtoid_categoriaid (produto_id,categoria_id),
-  KEY fk_produto__categoria_id (categoria_id),
-  CONSTRAINT fk_produto__categoria_id FOREIGN KEY (categoria_id) REFERENCES categoria (id) ON DELETE RESTRICT,
-  CONSTRAINT fk_produto__produto_id FOREIGN KEY (produto_id) REFERENCES produto (id) ON DELETE RESTRICT
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+CREATE SEQUENCE public.cidade_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
 
 
--- danilonb_mysql-springboot_ionic.telefone definition
+ALTER TABLE public.cidade_id_seq OWNER TO root;
 
-CREATE TABLE telefone (
-  cliente_id int NOT NULL,
-  numero varchar(20) NOT NULL,
-  PRIMARY KEY (cliente_id,numero),
-  UNIQUE KEY uk_telefone__numero (numero),
-  CONSTRAINT fk_telefone__cliente_id FOREIGN KEY (cliente_id) REFERENCES cliente (id) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+--
+-- Name: cidade_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: root
+--
+
+ALTER SEQUENCE public.cidade_id_seq OWNED BY public.cidade.id;
 
 
--- danilonb_mysql-springboot_ionic.item_pedido definition
+--
+-- Name: cliente; Type: TABLE; Schema: public; Owner: root
+--
 
-CREATE TABLE item_pedido (
-  desconto double NOT NULL DEFAULT '0',
-  preco double NOT NULL,
-  quantidade int NOT NULL,
-  pedido_id int NOT NULL,
-  produto_id int NOT NULL,
-  PRIMARY KEY (pedido_id,produto_id),
-  KEY fk_itempedido__produto_id (produto_id),
-  CONSTRAINT fk_itempedido__pedido_id FOREIGN KEY (pedido_id) REFERENCES pedido (id) ON DELETE CASCADE,
-  CONSTRAINT fk_itempedido__produto_id FOREIGN KEY (produto_id) REFERENCES produto (id) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+CREATE TABLE public.cliente (
+    id integer NOT NULL,
+    cpf_ou_cnpj character varying(20) NOT NULL,
+    email character varying(255) NOT NULL,
+    nome character varying(50) NOT NULL,
+    tipo integer NOT NULL
+);
 
 
--- danilonb_mysql-springboot_ionic.pagamento definition
+ALTER TABLE public.cliente OWNER TO root;
 
-CREATE TABLE pagamento (
-  pedido_id int NOT NULL,
-  status int NOT NULL,
-  PRIMARY KEY (pedido_id),
-  CONSTRAINT fk_pagamento__pedido_id FOREIGN KEY (pedido_id) REFERENCES pedido (id) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+--
+-- Name: cliente_id_seq; Type: SEQUENCE; Schema: public; Owner: root
+--
 
-
--- danilonb_mysql-springboot_ionic.pagamento_com_boleto definition
-
-CREATE TABLE pagamento_com_boleto (
-  data_pagamento datetime(6) DEFAULT NULL,
-  data_vencimento datetime(6) NOT NULL,
-  pedido_id int NOT NULL,
-  PRIMARY KEY (pedido_id),
-  CONSTRAINT fk_pagamento_com_boleto__pedido_id FOREIGN KEY (pedido_id) REFERENCES pagamento (pedido_id)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+CREATE SEQUENCE public.cliente_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
 
 
--- danilonb_mysql-springboot_ionic.pagamento_com_cartao definition
+ALTER TABLE public.cliente_id_seq OWNER TO root;
 
-CREATE TABLE pagamento_com_cartao (
-  numero_de_parcelas int NOT NULL,
-  pedido_id int NOT NULL,
-  PRIMARY KEY (pedido_id),
-  CONSTRAINT fk_pagamento_com_cartao__pedido_id FOREIGN KEY (pedido_id) REFERENCES pagamento (pedido_id)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+--
+-- Name: cliente_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: root
+--
+
+ALTER SEQUENCE public.cliente_id_seq OWNED BY public.cliente.id;
+
+
+--
+-- Name: endereco; Type: TABLE; Schema: public; Owner: root
+--
+
+CREATE TABLE public.endereco (
+    id integer NOT NULL,
+    bairro character varying(25),
+    cep character varying(10) NOT NULL,
+    complemento character varying(15),
+    logradouro character varying(255) NOT NULL,
+    numero character varying(15) NOT NULL,
+    cidade_id integer NOT NULL,
+    cliente_id integer NOT NULL
+);
+
+
+ALTER TABLE public.endereco OWNER TO root;
+
+--
+-- Name: endereco_id_seq; Type: SEQUENCE; Schema: public; Owner: root
+--
+
+CREATE SEQUENCE public.endereco_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.endereco_id_seq OWNER TO root;
+
+--
+-- Name: endereco_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: root
+--
+
+ALTER SEQUENCE public.endereco_id_seq OWNED BY public.endereco.id;
+
+
+--
+-- Name: estado; Type: TABLE; Schema: public; Owner: root
+--
+
+CREATE TABLE public.estado (
+    id integer NOT NULL,
+    nome character varying(20) NOT NULL,
+    sigla character varying(2) NOT NULL
+);
+
+
+ALTER TABLE public.estado OWNER TO root;
+
+--
+-- Name: estado_id_seq; Type: SEQUENCE; Schema: public; Owner: root
+--
+
+CREATE SEQUENCE public.estado_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.estado_id_seq OWNER TO root;
+
+--
+-- Name: estado_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: root
+--
+
+ALTER SEQUENCE public.estado_id_seq OWNED BY public.estado.id;
+
+
+--
+-- Name: item_pedido; Type: TABLE; Schema: public; Owner: root
+--
+
+CREATE TABLE public.item_pedido (
+    desconto double precision DEFAULT 0 NOT NULL,
+    preco double precision NOT NULL,
+    quantidade integer NOT NULL,
+    pedido_id integer NOT NULL,
+    produto_id integer NOT NULL,
+    CONSTRAINT item_pedido_quantidade_check CHECK ((quantidade >= 1))
+);
+
+
+ALTER TABLE public.item_pedido OWNER TO root;
+
+--
+-- Name: pagamento; Type: TABLE; Schema: public; Owner: root
+--
+
+CREATE TABLE public.pagamento (
+    pedido_id integer NOT NULL,
+    status integer NOT NULL
+);
+
+
+ALTER TABLE public.pagamento OWNER TO root;
+
+--
+-- Name: pagamento_com_boleto; Type: TABLE; Schema: public; Owner: root
+--
+
+CREATE TABLE public.pagamento_com_boleto (
+    data_pagamento timestamp without time zone,
+    data_vencimento timestamp without time zone NOT NULL,
+    pedido_id integer NOT NULL
+);
+
+
+ALTER TABLE public.pagamento_com_boleto OWNER TO root;
+
+--
+-- Name: pagamento_com_cartao; Type: TABLE; Schema: public; Owner: root
+--
+
+CREATE TABLE public.pagamento_com_cartao (
+    numero_de_parcelas integer NOT NULL,
+    pedido_id integer NOT NULL,
+    CONSTRAINT pagamento_com_cartao_numero_de_parcelas_check CHECK ((numero_de_parcelas >= 1))
+);
+
+
+ALTER TABLE public.pagamento_com_cartao OWNER TO root;
+
+--
+-- Name: pedido; Type: TABLE; Schema: public; Owner: root
+--
+
+CREATE TABLE public.pedido (
+    id integer NOT NULL,
+    instante timestamp without time zone NOT NULL,
+    cliente_id integer NOT NULL,
+    endereco_entrega_id integer NOT NULL
+);
+
+
+ALTER TABLE public.pedido OWNER TO root;
+
+--
+-- Name: pedido_id_seq; Type: SEQUENCE; Schema: public; Owner: root
+--
+
+CREATE SEQUENCE public.pedido_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.pedido_id_seq OWNER TO root;
+
+--
+-- Name: pedido_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: root
+--
+
+ALTER SEQUENCE public.pedido_id_seq OWNED BY public.pedido.id;
+
+
+--
+-- Name: produto; Type: TABLE; Schema: public; Owner: root
+--
+
+CREATE TABLE public.produto (
+    id integer NOT NULL,
+    nome character varying(150) NOT NULL,
+    preco double precision DEFAULT 0 NOT NULL
+);
+
+
+ALTER TABLE public.produto OWNER TO root;
+
+--
+-- Name: produto_categoria; Type: TABLE; Schema: public; Owner: root
+--
+
+CREATE TABLE public.produto_categoria (
+    produto_id integer NOT NULL,
+    categoria_id integer NOT NULL
+);
+
+
+ALTER TABLE public.produto_categoria OWNER TO root;
+
+--
+-- Name: produto_id_seq; Type: SEQUENCE; Schema: public; Owner: root
+--
+
+CREATE SEQUENCE public.produto_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.produto_id_seq OWNER TO root;
+
+--
+-- Name: produto_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: root
+--
+
+ALTER SEQUENCE public.produto_id_seq OWNED BY public.produto.id;
+
+
+--
+-- Name: telefone; Type: TABLE; Schema: public; Owner: root
+--
+
+CREATE TABLE public.telefone (
+    cliente_id integer NOT NULL,
+    numero character varying(20) NOT NULL
+);
+
+
+ALTER TABLE public.telefone OWNER TO root;
+
+--
+-- Name: categoria id; Type: DEFAULT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.categoria ALTER COLUMN id SET DEFAULT nextval('public.categoria_id_seq'::regclass);
+
+
+--
+-- Name: cidade id; Type: DEFAULT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.cidade ALTER COLUMN id SET DEFAULT nextval('public.cidade_id_seq'::regclass);
+
+
+--
+-- Name: cliente id; Type: DEFAULT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.cliente ALTER COLUMN id SET DEFAULT nextval('public.cliente_id_seq'::regclass);
+
+
+--
+-- Name: endereco id; Type: DEFAULT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.endereco ALTER COLUMN id SET DEFAULT nextval('public.endereco_id_seq'::regclass);
+
+
+--
+-- Name: estado id; Type: DEFAULT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.estado ALTER COLUMN id SET DEFAULT nextval('public.estado_id_seq'::regclass);
+
+
+--
+-- Name: pedido id; Type: DEFAULT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.pedido ALTER COLUMN id SET DEFAULT nextval('public.pedido_id_seq'::regclass);
+
+
+--
+-- Name: produto id; Type: DEFAULT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.produto ALTER COLUMN id SET DEFAULT nextval('public.produto_id_seq'::regclass);
+
+
+--
+-- Name: categoria categoria_pkey; Type: CONSTRAINT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.categoria
+    ADD CONSTRAINT categoria_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: cidade cidade_pkey; Type: CONSTRAINT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.cidade
+    ADD CONSTRAINT cidade_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: cliente cliente_pkey; Type: CONSTRAINT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.cliente
+    ADD CONSTRAINT cliente_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: endereco endereco_pkey; Type: CONSTRAINT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.endereco
+    ADD CONSTRAINT endereco_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: estado estado_pkey; Type: CONSTRAINT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.estado
+    ADD CONSTRAINT estado_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: item_pedido item_pedido_pkey; Type: CONSTRAINT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.item_pedido
+    ADD CONSTRAINT item_pedido_pkey PRIMARY KEY (pedido_id, produto_id);
+
+
+--
+-- Name: pagamento_com_boleto pagamento_com_boleto_pkey; Type: CONSTRAINT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.pagamento_com_boleto
+    ADD CONSTRAINT pagamento_com_boleto_pkey PRIMARY KEY (pedido_id);
+
+
+--
+-- Name: pagamento_com_cartao pagamento_com_cartao_pkey; Type: CONSTRAINT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.pagamento_com_cartao
+    ADD CONSTRAINT pagamento_com_cartao_pkey PRIMARY KEY (pedido_id);
+
+
+--
+-- Name: pagamento pagamento_pkey; Type: CONSTRAINT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.pagamento
+    ADD CONSTRAINT pagamento_pkey PRIMARY KEY (pedido_id);
+
+
+--
+-- Name: pedido pedido_pkey; Type: CONSTRAINT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.pedido
+    ADD CONSTRAINT pedido_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: produto produto_pkey; Type: CONSTRAINT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.produto
+    ADD CONSTRAINT produto_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: telefone telefone_pkey; Type: CONSTRAINT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.telefone
+    ADD CONSTRAINT telefone_pkey PRIMARY KEY (cliente_id, numero);
+
+
+--
+-- Name: categoria uk_categoria__nome; Type: CONSTRAINT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.categoria
+    ADD CONSTRAINT uk_categoria__nome UNIQUE (nome);
+
+
+--
+-- Name: cliente uk_cliente__email; Type: CONSTRAINT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.cliente
+    ADD CONSTRAINT uk_cliente__email UNIQUE (email);
+
+
+--
+-- Name: produto uk_produto__nome; Type: CONSTRAINT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.produto
+    ADD CONSTRAINT uk_produto__nome UNIQUE (nome);
+
+
+--
+-- Name: produto_categoria uk_produtoid_categoriaid; Type: CONSTRAINT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.produto_categoria
+    ADD CONSTRAINT uk_produtoid_categoriaid UNIQUE (produto_id, categoria_id);
+
+
+--
+-- Name: telefone uk_telefone__numero; Type: CONSTRAINT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.telefone
+    ADD CONSTRAINT uk_telefone__numero UNIQUE (numero);
+
+
+--
+-- Name: cidade fk_cidade__estado_id; Type: FK CONSTRAINT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.cidade
+    ADD CONSTRAINT fk_cidade__estado_id FOREIGN KEY (estado_id) REFERENCES public.estado(id) ON DELETE CASCADE;
+
+
+--
+-- Name: endereco fk_endereco__cidade_id; Type: FK CONSTRAINT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.endereco
+    ADD CONSTRAINT fk_endereco__cidade_id FOREIGN KEY (cidade_id) REFERENCES public.cidade(id) ON DELETE RESTRICT;
+
+
+--
+-- Name: endereco fk_endereco__cliente_id; Type: FK CONSTRAINT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.endereco
+    ADD CONSTRAINT fk_endereco__cliente_id FOREIGN KEY (cliente_id) REFERENCES public.cliente(id) ON DELETE CASCADE;
+
+
+--
+-- Name: item_pedido fk_itempedido__pedido_id; Type: FK CONSTRAINT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.item_pedido
+    ADD CONSTRAINT fk_itempedido__pedido_id FOREIGN KEY (pedido_id) REFERENCES public.pedido(id) ON DELETE CASCADE;
+
+
+--
+-- Name: item_pedido fk_itempedido__produto_id; Type: FK CONSTRAINT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.item_pedido
+    ADD CONSTRAINT fk_itempedido__produto_id FOREIGN KEY (produto_id) REFERENCES public.produto(id) ON DELETE CASCADE;
+
+
+--
+-- Name: pagamento fk_pagamento__pedido_id; Type: FK CONSTRAINT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.pagamento
+    ADD CONSTRAINT fk_pagamento__pedido_id FOREIGN KEY (pedido_id) REFERENCES public.pedido(id) ON DELETE CASCADE;
+
+
+--
+-- Name: pedido fk_pedido__cliente_id; Type: FK CONSTRAINT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.pedido
+    ADD CONSTRAINT fk_pedido__cliente_id FOREIGN KEY (cliente_id) REFERENCES public.cliente(id);
+
+
+--
+-- Name: pedido fk_pedido__enderecoentrega_id; Type: FK CONSTRAINT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.pedido
+    ADD CONSTRAINT fk_pedido__enderecoentrega_id FOREIGN KEY (endereco_entrega_id) REFERENCES public.endereco(id) ON DELETE CASCADE;
+
+
+--
+-- Name: produto_categoria fk_produto__categoria_id; Type: FK CONSTRAINT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.produto_categoria
+    ADD CONSTRAINT fk_produto__categoria_id FOREIGN KEY (categoria_id) REFERENCES public.categoria(id) ON DELETE RESTRICT;
+
+
+--
+-- Name: produto_categoria fk_produto__produto_id; Type: FK CONSTRAINT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.produto_categoria
+    ADD CONSTRAINT fk_produto__produto_id FOREIGN KEY (produto_id) REFERENCES public.produto(id) ON DELETE RESTRICT;
+
+
+--
+-- Name: telefone fk_telefone__cliente_id; Type: FK CONSTRAINT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.telefone
+    ADD CONSTRAINT fk_telefone__cliente_id FOREIGN KEY (cliente_id) REFERENCES public.cliente(id) ON DELETE CASCADE;
+
+
+--
+-- Name: pagamento_com_boleto fkcr74vrxf8nfph0knq2bho8doo; Type: FK CONSTRAINT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.pagamento_com_boleto
+    ADD CONSTRAINT fk_pagamento_com_boleto__pedido_id FOREIGN KEY (pedido_id) REFERENCES public.pagamento(pedido_id);
+
+
+--
+-- Name: pagamento_com_cartao fkta3cdnuuxclwfh52t4qi432ow; Type: FK CONSTRAINT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.pagamento_com_cartao
+    ADD CONSTRAINT fk_pagamento_com_cartao__pedido_id FOREIGN KEY (pedido_id) REFERENCES public.pagamento(pedido_id);
+
+
+--
+-- PostgreSQL database dump complete
+--
+

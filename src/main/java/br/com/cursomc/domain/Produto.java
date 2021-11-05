@@ -55,7 +55,7 @@ public class Produto implements Serializable {
 	private String nome;
 
 	@PositiveOrZero(message = "{Produto.preco.PositiveOrZero}")
-	@Column(nullable = false, columnDefinition = "double DEFAULT 0")
+	@Column(nullable = false, columnDefinition = "double precision default 0")
 	private Double preco;
 
 	public Produto(Integer id, String nome, Double preco) {
