@@ -15,7 +15,6 @@ CREATE TABLE public.categoria (
 );
 
 
-ALTER TABLE public.categoria OWNER TO root;
 
 --
 -- Name: categoria_id_seq; Type: SEQUENCE; Schema: public; Owner: root
@@ -30,7 +29,6 @@ CREATE SEQUENCE public.categoria_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.categoria_id_seq OWNER TO root;
 
 --
 -- Name: categoria_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: root
@@ -40,7 +38,6 @@ ALTER SEQUENCE public.categoria_id_seq OWNED BY public.categoria.id;
 
 
 --
--- Name: cidade; Type: TABLE; Schema: public; Owner: root
 --
 
 CREATE TABLE public.cidade (
@@ -50,7 +47,6 @@ CREATE TABLE public.cidade (
 );
 
 
-ALTER TABLE public.cidade OWNER TO root;
 
 --
 -- Name: cidade_id_seq; Type: SEQUENCE; Schema: public; Owner: root
@@ -65,7 +61,6 @@ CREATE SEQUENCE public.cidade_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.cidade_id_seq OWNER TO root;
 
 --
 -- Name: cidade_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: root
@@ -87,7 +82,6 @@ CREATE TABLE public.cliente (
 );
 
 
-ALTER TABLE public.cliente OWNER TO root;
 
 --
 -- Name: cliente_id_seq; Type: SEQUENCE; Schema: public; Owner: root
@@ -102,7 +96,6 @@ CREATE SEQUENCE public.cliente_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.cliente_id_seq OWNER TO root;
 
 --
 -- Name: cliente_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: root
@@ -127,7 +120,6 @@ CREATE TABLE public.endereco (
 );
 
 
-ALTER TABLE public.endereco OWNER TO root;
 
 --
 -- Name: endereco_id_seq; Type: SEQUENCE; Schema: public; Owner: root
@@ -142,7 +134,6 @@ CREATE SEQUENCE public.endereco_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.endereco_id_seq OWNER TO root;
 
 --
 -- Name: endereco_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: root
@@ -162,7 +153,6 @@ CREATE TABLE public.estado (
 );
 
 
-ALTER TABLE public.estado OWNER TO root;
 
 --
 -- Name: estado_id_seq; Type: SEQUENCE; Schema: public; Owner: root
@@ -177,7 +167,6 @@ CREATE SEQUENCE public.estado_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.estado_id_seq OWNER TO root;
 
 --
 -- Name: estado_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: root
@@ -200,7 +189,6 @@ CREATE TABLE public.item_pedido (
 );
 
 
-ALTER TABLE public.item_pedido OWNER TO root;
 
 --
 -- Name: pagamento; Type: TABLE; Schema: public; Owner: root
@@ -212,7 +200,6 @@ CREATE TABLE public.pagamento (
 );
 
 
-ALTER TABLE public.pagamento OWNER TO root;
 
 --
 -- Name: pagamento_com_boleto; Type: TABLE; Schema: public; Owner: root
@@ -225,7 +212,6 @@ CREATE TABLE public.pagamento_com_boleto (
 );
 
 
-ALTER TABLE public.pagamento_com_boleto OWNER TO root;
 
 --
 -- Name: pagamento_com_cartao; Type: TABLE; Schema: public; Owner: root
@@ -238,7 +224,6 @@ CREATE TABLE public.pagamento_com_cartao (
 );
 
 
-ALTER TABLE public.pagamento_com_cartao OWNER TO root;
 
 --
 -- Name: pedido; Type: TABLE; Schema: public; Owner: root
@@ -252,7 +237,6 @@ CREATE TABLE public.pedido (
 );
 
 
-ALTER TABLE public.pedido OWNER TO root;
 
 --
 -- Name: pedido_id_seq; Type: SEQUENCE; Schema: public; Owner: root
@@ -267,7 +251,6 @@ CREATE SEQUENCE public.pedido_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.pedido_id_seq OWNER TO root;
 
 --
 -- Name: pedido_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: root
@@ -287,7 +270,6 @@ CREATE TABLE public.produto (
 );
 
 
-ALTER TABLE public.produto OWNER TO root;
 
 --
 -- Name: produto_categoria; Type: TABLE; Schema: public; Owner: root
@@ -299,7 +281,6 @@ CREATE TABLE public.produto_categoria (
 );
 
 
-ALTER TABLE public.produto_categoria OWNER TO root;
 
 --
 -- Name: produto_id_seq; Type: SEQUENCE; Schema: public; Owner: root
@@ -314,7 +295,6 @@ CREATE SEQUENCE public.produto_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.produto_id_seq OWNER TO root;
 
 --
 -- Name: produto_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: root
@@ -333,7 +313,6 @@ CREATE TABLE public.telefone (
 );
 
 
-ALTER TABLE public.telefone OWNER TO root;
 
 --
 -- Name: categoria id; Type: DEFAULT; Schema: public; Owner: root
