@@ -1,8 +1,11 @@
 package br.com.cursomc.domain;
 
 import java.io.Serializable;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -62,19 +65,38 @@ public class Pedido implements Serializable {
 	}
 
 	@ManyToOne
-	@JoinColumn(name = "cliente_id", nullable = false,
-		foreignKey = @ForeignKey(name= "fk_pedido__cliente_id",
-		foreignKeyDefinition = "foreign key (cliente_id) references cliente(id)"))
+	@JoinColumn(name = "cliente_id", nullable = false, foreignKey = @ForeignKey(name = "fk_pedido__cliente_id", foreignKeyDefinition = "foreign key (cliente_id) references cliente(id)"))
 	private Cliente cliente;
 
 	@ManyToOne
-	@JoinColumn(name = "endereco_entrega_id", nullable = false, 
-		foreignKey = @ForeignKey(name = "fk_pedido__enderecoentrega_id",
-		foreignKeyDefinition = "foreign key (endereco_entrega_id) references endereco(id) on delete cascade"))
+	@JoinColumn(name = "endereco_entrega_id", nullable = false, foreignKey = @ForeignKey(name = "fk_pedido__enderecoentrega_id", foreignKeyDefinition = "foreign key (endereco_entrega_id) references endereco(id) on delete cascade"))
 	private Endereco enderecoDeEntrega;
 
 	@Builder.Default
 	@OneToMany(mappedBy = "id.pedido")
 	private Set<ItemPedido> itens = new HashSet<>();
 
+	@Override
+	public String toString() {
+		NumberFormat number = NumberFormat
+				.getCurrencyInstance(new Locale("pt", "BR"));
+		SimpleDateFormat date = new SimpleDateFormat("dd/MM/yyyy hh:mm",
+				new Locale("pt", "BR"));
+		StringBuilder builder = new StringBuilder();
+		builder.append("Pedido número: ");
+		builder.append(getId());
+		builder.append("; Instante: ");
+		builder.append(date.format(getInstante()));
+		builder.append("; Cliente: ");
+		builder.append(getCliente().getNome());
+		builder.append("; Situação do Pagamento: ");
+		builder.append(getPagamento().getStatus().getDescricao());
+		builder.append("\nDetalhes:\n");
+		for (ItemPedido itemPedido : getItens()) {
+			builder.append(itemPedido.toString());
+		}
+		builder.append("Valor Total: ");
+		builder.append(number.format(getValorTotal()));
+		return builder.toString();
+	}
 }

@@ -26,7 +26,7 @@ public class ProdutoResource {
 
 	@GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Produto> find(@PathVariable Integer id) {
-		var produto = service.finOneProduto(id);
+		var produto = service.find(id);
 		return ResponseEntity.ok().body(produto);
 	}
 

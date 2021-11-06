@@ -55,7 +55,7 @@ public class LoadDatabase {
 			PagamentoRepository pagamentoRepository,
 			ItemPedidoRepository itemPedidoRepository) throws ParseException {
 		
-		if ("created".equals(strategy) || "create-drop".equals(strategy)) {
+		if ("create".equals(strategy) || "create-drop".equals(strategy)) {
 
 			var cat1 = Categoria.builder().nome("Informática").build();
 			var cat2 = Categoria.builder().nome("Escritório").build();

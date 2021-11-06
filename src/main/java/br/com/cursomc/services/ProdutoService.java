@@ -25,7 +25,7 @@ public class ProdutoService {
 	@Autowired
 	private CategoriaRepository categoriaRepository;
 
-	public Produto finOneProduto(Integer id) {
+	public Produto find(Integer id) {
 		Optional<Produto> optional = produtoRepository.findById(id);
 		return optional.orElseThrow(
 				() -> new ObjectNotFoundException("Objeto não encontrado! ID: "
