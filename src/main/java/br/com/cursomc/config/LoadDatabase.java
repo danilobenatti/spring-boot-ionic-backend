@@ -36,6 +36,8 @@ import br.com.cursomc.repositories.ItemPedidoRepository;
 import br.com.cursomc.repositories.PagamentoRepository;
 import br.com.cursomc.repositories.PedidoRepository;
 import br.com.cursomc.repositories.ProdutoRepository;
+import br.com.cursomc.services.EmailService;
+import br.com.cursomc.services.MockEmailService;
 
 @Configuration
 @Profile(value = { "test", "dev" })
@@ -159,5 +161,10 @@ public class LoadDatabase {
 			};
 		}
 		return null;
+	}
+	
+	@Bean
+	public EmailService emailService() {
+		return new MockEmailService();
 	}
 }
