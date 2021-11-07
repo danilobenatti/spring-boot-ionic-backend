@@ -38,6 +38,7 @@ import br.com.cursomc.repositories.PedidoRepository;
 import br.com.cursomc.repositories.ProdutoRepository;
 import br.com.cursomc.services.EmailService;
 import br.com.cursomc.services.MockEmailService;
+import br.com.cursomc.services.SmtpEmailService;
 
 @Configuration
 @Profile(value = { "test", "dev" })
@@ -107,7 +108,7 @@ public class LoadDatabase {
 			cidades.addAll(List.of(cid1, cid2, cid3));
 			
 			var clie1 = Cliente.builder().nome("Maria Silva")
-					.email("maria@gmail.com").cpfOuCnpj("363262161-00")
+					.email("danilobenatti@gmail.com").cpfOuCnpj("363262161-00")
 					.tipo(PESSOAFISICA.getCodigo())
 					.telefones(Set.of("98889696", "22223333")).build();
 			var clientes = new ArrayList<Cliente>();
@@ -164,7 +165,12 @@ public class LoadDatabase {
 	}
 	
 	@Bean
-	public EmailService emailService() {
+	public EmailService emailService1() {
 		return new MockEmailService();
+	}
+	
+	@Bean
+	public EmailService emailService() {
+		return new SmtpEmailService();
 	}
 }
