@@ -22,12 +22,12 @@ import br.com.cursomc.services.PedidoService;
 @RequestMapping(path = "/pedidos")
 public class PedidoResource {
 
-	@Autowired(required = true)
+	@Autowired
 	private PedidoService service;
 
 	@GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Pedido> find(@PathVariable Integer id) {
-		var pedido = service.finOnePedido(id);
+		var pedido = service.find(id);
 		return ResponseEntity.ok().body(pedido);
 	}
 

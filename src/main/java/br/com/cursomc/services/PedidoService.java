@@ -36,11 +36,11 @@ public class PedidoService {
 
 	@Autowired
 	private ClienteService clienteService;
-	
+
 	@Autowired
 	private EmailService emailService;
 
-	public Pedido finOnePedido(Integer id) {
+	public Pedido find(Integer id) {
 		Optional<Pedido> optional = pedidoRepository.findById(id);
 		return optional.orElseThrow(
 				() -> new ObjectNotFoundException("Objeto não encontrado! ID: "

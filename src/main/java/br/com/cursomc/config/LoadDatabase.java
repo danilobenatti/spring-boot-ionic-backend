@@ -41,14 +41,14 @@ import br.com.cursomc.services.MockEmailService;
 import br.com.cursomc.services.SmtpEmailService;
 
 @Configuration
-@Profile(value = { "test", "dev" })
+@Profile(value = { "test", "dev", "prod" })
 public class LoadDatabase {
 
 	@Value("${spring.jpa.hibernate.ddl-auto}")
 	private String strategy;
 
 	@Bean
-	CommandLineRunner runner(CategoriaRepository categoriaRepository,
+	public CommandLineRunner runner(CategoriaRepository categoriaRepository,
 			ProdutoRepository produtoRepository,
 			EstadoRepository estadoRepository,
 			CidadeRepository cidadeRepository,
@@ -57,7 +57,7 @@ public class LoadDatabase {
 			PedidoRepository pedidoRepository,
 			PagamentoRepository pagamentoRepository,
 			ItemPedidoRepository itemPedidoRepository) throws ParseException {
-		
+
 		if ("create".equals(strategy) || "create-drop".equals(strategy)) {
 
 			var cat1 = Categoria.builder().nome("Informática").build();

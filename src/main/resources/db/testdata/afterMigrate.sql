@@ -51,7 +51,7 @@ SELECT setval('cidade_id_seq', 3, true);
 -- Dumping data for table `cliente`
 --
 
-INSERT INTO cliente (id, cpf_ou_cnpj, email, nome, tipo) VALUES (1,'363262161-00','maria@gmail.com','Maria Silva',1);
+INSERT INTO cliente (id, cpf_ou_cnpj, email, nome, tipo) VALUES (1,'363262161-00','danilobenatti@gmail.com','Maria Silva',1);
 SELECT setval('cliente_id_seq', 1, true);
 --
 -- Dumping data for table `endereco`
