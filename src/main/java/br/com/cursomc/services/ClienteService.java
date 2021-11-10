@@ -8,6 +8,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,6 +30,9 @@ public class ClienteService {
 
 	@Autowired
 	private EnderecoRepository enderecoRepository;
+
+	@Autowired
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
 
 	public Cliente find(Integer id) {
 		Optional<Cliente> optional = clienteRepository.findById(id);
@@ -80,13 +84,14 @@ public class ClienteService {
 
 	public Cliente fromDTO(ClienteDTO objDto) {
 		return new Cliente(objDto.getId(), objDto.getNome(), objDto.getEmail(),
-				null, null);
+				null, null, null);
 	}
 
 	public Cliente fromDTO(ClienteNewDTO objDto) {
 		var cli = Cliente.builder().nome(objDto.getNome())
 				.email(objDto.getEmail()).cpfOuCnpj(objDto.getCpfOuCnpj())
-				.tipo(objDto.getTipo()).build();
+				.tipo(objDto.getTipo())
+				.senha(bCryptPasswordEncoder.encode(objDto.getSenha())).build();
 		var cid = Cidade.builder().id(objDto.getCidadeId()).build();
 		var end = Endereco.builder().logradouro(objDto.getLogradouro())
 				.numero(objDto.getNumero()).complemento(objDto.getComplemento())

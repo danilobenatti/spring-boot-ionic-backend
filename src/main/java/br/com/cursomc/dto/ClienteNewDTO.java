@@ -32,6 +32,9 @@ public class ClienteNewDTO implements Serializable{
 
 	private Integer tipo;
 
+	@NotBlank(message = "{Cliente.senha.NotBlank}")
+	private String senha;
+
 	@NotBlank(message = "{Cliente.logradouro.NotBlank}")
 	private String logradouro;
 

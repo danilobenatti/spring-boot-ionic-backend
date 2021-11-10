@@ -72,6 +72,11 @@ public class Cliente implements Serializable {
 	@Column(nullable = false)
 	private Integer tipo;
 
+	@JsonIgnore
+	@NotBlank(message = "{Cliente.senha.NotBlank}")
+	@Column(nullable = false)
+	private String senha;
+
 	public TipoCliente getTipo() {
 		return TipoCliente.toEnum(tipo);
 	}
@@ -95,13 +100,14 @@ public class Cliente implements Serializable {
 	@Column(name = "numero", length = 20, nullable = false)
 	private Set<String> telefones = new HashSet<>();
 
-	public Cliente(Integer id, String nome, String email, String cpfOuCnpj, TipoCliente tipo) {
+	public Cliente(Integer id, String nome, String email, String cpfOuCnpj, TipoCliente tipo, String senha) {
 		super();
 		this.id = id;
 		this.nome = nome;
 		this.email = email;
 		this.cpfOuCnpj = cpfOuCnpj;
 		this.tipo = tipo == null ? null : tipo.getCodigo();
+		this.senha = senha;
 	}
 
 	@JsonIgnore

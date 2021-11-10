@@ -15,6 +15,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import br.com.cursomc.domain.Categoria;
 import br.com.cursomc.domain.Cidade;
@@ -56,7 +57,8 @@ public class LoadDatabase {
 			EnderecoRepository enderecoRepository,
 			PedidoRepository pedidoRepository,
 			PagamentoRepository pagamentoRepository,
-			ItemPedidoRepository itemPedidoRepository) throws ParseException {
+			ItemPedidoRepository itemPedidoRepository,
+			BCryptPasswordEncoder bCryptPasswordEncoder) throws ParseException {
 
 		if ("create".equals(strategy) || "create-drop".equals(strategy)) {
 
@@ -110,6 +112,7 @@ public class LoadDatabase {
 			var clie1 = Cliente.builder().nome("Maria Silva")
 					.email("danilobenatti@gmail.com").cpfOuCnpj("363262161-00")
 					.tipo(PESSOAFISICA.getCodigo())
+					.senha(bCryptPasswordEncoder.encode("123"))
 					.telefones(Set.of("98889696", "22223333")).build();
 			var clientes = new ArrayList<Cliente>();
 			clientes.addAll(List.of(clie1));
