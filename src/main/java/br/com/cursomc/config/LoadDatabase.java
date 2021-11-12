@@ -28,6 +28,7 @@ import br.com.cursomc.domain.PagamentoComBoleto;
 import br.com.cursomc.domain.PagamentoComCartao;
 import br.com.cursomc.domain.Pedido;
 import br.com.cursomc.domain.Produto;
+import br.com.cursomc.domain.enums.Perfil;
 import br.com.cursomc.repositories.CategoriaRepository;
 import br.com.cursomc.repositories.CidadeRepository;
 import br.com.cursomc.repositories.ClienteRepository;
@@ -110,12 +111,20 @@ public class LoadDatabase {
 			cidades.addAll(List.of(cid1, cid2, cid3));
 			
 			var clie1 = Cliente.builder().nome("Maria Silva")
-					.email("danilobenatti@gmail.com").cpfOuCnpj("363262161-00")
-					.tipo(PESSOAFISICA.getCodigo())
+					.email("danilobenatti@gmail.com")
+					.cpfOuCnpj("363262161-00").tipo(PESSOAFISICA.getCodigo())
 					.senha(bCryptPasswordEncoder.encode("123"))
-					.telefones(Set.of("98889696", "22223333")).build();
+					.telefones(Set.of("98889696", "22223333"))
+					.build();
+			var clie2 = Cliente.builder().nome("Ana Costa")
+					.email("danilobenatti@hotmail.com")
+					.cpfOuCnpj("861758160-30").tipo(PESSOAFISICA.getCodigo())
+					.senha(bCryptPasswordEncoder.encode("123"))
+					.telefones(Set.of("98889797", "44445555"))
+					.build();
+			clie2.addPerfil(Perfil.ADMIN);
 			var clientes = new ArrayList<Cliente>();
-			clientes.addAll(List.of(clie1));
+			clientes.addAll(List.of(clie1, clie2));
 			
 			var end1 = Endereco.builder().logradouro("Rua Flores").numero("300")
 					.complemento("apt 203").bairro("Jardim").cep("38302000")
@@ -123,8 +132,11 @@ public class LoadDatabase {
 			var end2 = Endereco.builder().logradouro("Avenida Matos").numero("105")
 					.complemento("sala 800").bairro("Centro").cep("38777012")
 					.cliente(clie1).cidade(cid2).build();
+			var end3 = Endereco.builder().logradouro("Avenida Gomes").numero("501")
+					.complemento(null).bairro("Centro").cep("38777013")
+					.cliente(clie2).cidade(cid3).build();
 			var enderecos = new ArrayList<Endereco>();
-			enderecos.addAll(List.of(end1, end2));
+			enderecos.addAll(List.of(end1, end2, end3));
 			
 			SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 			

@@ -5,12 +5,14 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -28,20 +30,20 @@ import org.hibernate.annotations.FetchMode;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import br.com.cursomc.domain.enums.Perfil;
 import br.com.cursomc.domain.enums.TipoCliente;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-@NoArgsConstructor
+//@NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@Builder(toBuilder = true)
 @Entity
 @Table(name = "cliente",
 	uniqueConstraints = @UniqueConstraint(name = "uk_cliente__email", columnNames = "email"))
@@ -96,23 +98,45 @@ public class Cliente implements Serializable {
 	@CollectionTable(name = "telefone",
 		uniqueConstraints = @UniqueConstraint(name = "uk_telefone__numero", columnNames = {"numero"}),
 		foreignKey = @ForeignKey(name = "fk_telefone__cliente_id", 
-		foreignKeyDefinition = "foreign key (cliente_id) references cliente(id) on delete cascade"))
+			foreignKeyDefinition = "foreign key (cliente_id) references cliente(id) on delete cascade"))
 	@Column(name = "numero", length = 20, nullable = false)
 	private Set<String> telefones = new HashSet<>();
 
-	public Cliente(Integer id, String nome, String email, String cpfOuCnpj, TipoCliente tipo, String senha) {
+	public Cliente(Integer id, String nome, String email, String cpfOuCnpj,
+			TipoCliente tipo, String senha) {
 		super();
 		this.id = id;
 		this.nome = nome;
 		this.email = email;
 		this.cpfOuCnpj = cpfOuCnpj;
-		this.tipo = tipo == null ? null : tipo.getCodigo();
+		this.tipo = (tipo == null) ? null : tipo.getCodigo();
 		this.senha = senha;
+	}
+
+	public Cliente() {
+		this.perfis = Set.of(Perfil.CLIENT.getCodigo());
 	}
 
 	@JsonIgnore
 	@Builder.Default
 	@OneToMany(mappedBy = "cliente")
 	private transient List<Pedido> pedidos = new ArrayList<>();
+
+	@Builder.Default
+	@Fetch(value = FetchMode.SELECT)
+	@ElementCollection(fetch = FetchType.EAGER)
+	@CollectionTable(name = "perfis",
+		foreignKey = @ForeignKey(name = "fk_perfil__cliente_id", 
+			foreignKeyDefinition = "foreign key (cliente_id) references cliente(id) on delete cascade"))
+	@Column(name = "perfil", nullable = false)
+	private Set<Integer> perfis = new HashSet<>(Set.of(Perfil.CLIENT.getCodigo()));
+
+	public Set<Perfil> getPerfis() {
+		return perfis.stream().map(Perfil::toEnum).collect(Collectors.toSet());
+	}
+
+	public void addPerfil(Perfil perfil) {
+		perfis.add(perfil.getCodigo());
+	}
 
 }
