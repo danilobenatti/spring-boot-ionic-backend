@@ -22,5 +22,5 @@ public interface ClienteRepository extends JpaRepository<Cliente, Integer> {
 	Optional<Cliente> findByIdCustom(Integer id);
 
 	@Transactional(readOnly = true)
-	Cliente findByEmail(String email);
+	Optional<Cliente> findByEmail(String email);
 }

@@ -2,6 +2,7 @@ package br.com.cursomc.services.validation;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
@@ -45,8 +46,8 @@ public class ClienteInsertValidator
 			list.add(new FieldMessage("cpfOuCnpj", "CNPJ inválido."));
 		}
 
-		Cliente cliente = clienteRepository.findByEmail(objDto.getEmail());
-		if (cliente != null) {
+		Optional<Cliente> cliente = clienteRepository.findByEmail(objDto.getEmail());
+		if (cliente.isPresent()) {
 			list.add(new FieldMessage("email", "E-mail já existente."));
 		}
 
