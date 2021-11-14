@@ -56,6 +56,6 @@ public class JwtAuthenticationFilter
 		
 		var username = ((UserDetailsImpl) authResult.getPrincipal()).getUsername();
 		var token = jwtUtils.generateJwtToken(username);
-		response.addHeader("Authorization","Beare " + token);
+		response.addHeader("Authorization","Bearer " + token);
 	}
 }

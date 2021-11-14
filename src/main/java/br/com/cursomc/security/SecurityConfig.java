@@ -47,6 +47,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.authenticated();
 		http.addFilter(
 				new JwtAuthenticationFilter(authenticationManager(), jwtUtils));
+		http.addFilter(new JwtAuthorizationFilter(authenticationManager(),
+				jwtUtils, userDetailService));
 		if (Arrays.asList(env.getActiveProfiles()).contains("test")) {
 			http.headers().frameOptions().disable();
 		}
