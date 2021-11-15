@@ -5,11 +5,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import br.com.cursomc.security.UserDetailsImpl;
 
 public class UserService {
-	
+
 	UserService() {
 	}
 
-	static UserDetailsImpl authenticated() {
+	public static UserDetailsImpl authenticated() {
 		try {
 			return (UserDetailsImpl) SecurityContextHolder.getContext()
 					.getAuthentication().getPrincipal();
