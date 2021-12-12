@@ -97,7 +97,7 @@ public class Cliente implements Serializable {
 	@ElementCollection
 	@CollectionTable(name = "telefone",
 		uniqueConstraints = @UniqueConstraint(name = "uk_telefone__numero", columnNames = {"numero"}),
-		foreignKey = @ForeignKey(name = "fk_telefone__cliente_id", 
+		foreignKey = @ForeignKey(name = "fk_telefone__cliente_id",
 			foreignKeyDefinition = "foreign key (cliente_id) references cliente(id) on delete cascade"))
 	@Column(name = "numero", length = 20, nullable = false)
 	private Set<String> telefones = new HashSet<>();
@@ -126,7 +126,7 @@ public class Cliente implements Serializable {
 	@Fetch(value = FetchMode.SELECT)
 	@ElementCollection(fetch = FetchType.EAGER)
 	@CollectionTable(name = "perfis",
-		foreignKey = @ForeignKey(name = "fk_perfil__cliente_id", 
+		foreignKey = @ForeignKey(name = "fk_perfil__cliente_id",
 			foreignKeyDefinition = "foreign key (cliente_id) references cliente(id) on delete cascade"))
 	@Column(name = "perfil", nullable = false)
 	private Set<Integer> perfis = new HashSet<>(Set.of(Perfil.CLIENT.getCodigo()));

@@ -62,12 +62,12 @@ public class Endereco implements Serializable {
 	@JsonIgnore
 	@ManyToOne(targetEntity = Cliente.class, optional = false)
 	@JoinColumn(name = "cliente_id", nullable = false,
-		foreignKey = @ForeignKey(name = "fk_endereco__cliente_id", 
+		foreignKey = @ForeignKey(name = "fk_endereco__cliente_id",
 		foreignKeyDefinition = "foreign key (cliente_id) references cliente(id) on delete cascade"))
 	private Cliente cliente;
 
 	@ManyToOne(targetEntity = Cidade.class, optional = false)
-	@JoinColumn(name = "cidade_id", nullable = false, 
+	@JoinColumn(name = "cidade_id", nullable = false,
 		foreignKey = @ForeignKey(name = "fk_endereco__cidade_id",
 		foreignKeyDefinition = "foreign key (cidade_id) references cidade(id) on delete restrict"))
 	private Cidade cidade;

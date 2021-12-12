@@ -53,7 +53,7 @@ public class JwtAuthenticationFilter
 	protected void successfulAuthentication(HttpServletRequest request,
 			HttpServletResponse response, FilterChain chain,
 			Authentication authResult) throws IOException, ServletException {
-		
+
 		var username = ((UserDetailsImpl) authResult.getPrincipal()).getUsername();
 		var token = jwtUtils.generateJwtToken(username);
 		response.addHeader("Authorization","Bearer " + token);

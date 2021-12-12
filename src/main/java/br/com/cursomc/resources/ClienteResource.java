@@ -51,7 +51,7 @@ public class ClienteResource {
 		return ResponseEntity.created(uri).build();
 	}
 
-	@PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, 
+	@PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE,
 			consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Void> update(@Valid @RequestBody ClienteDTO objDto,
 			@PathVariable Integer id) {

@@ -72,7 +72,7 @@ public class LoadDatabase {
 			var cat7 = Categoria.builder().nome("Perfumaria").build();
 			var categorias = new ArrayList<Categoria>();
 			categorias.addAll(List.of(cat1, cat2, cat3, cat4, cat5, cat6, cat7));
-			
+
 			var prd1 = Produto.builder().nome("Computador").preco(2000.00)
 					.categorias(List.of(cat1, cat4)).build();
 			var prd2 = Produto.builder().nome("Impressora").preco(800.00)
@@ -98,18 +98,18 @@ public class LoadDatabase {
 			var produtos = new ArrayList<Produto>();
 			produtos.addAll(List.of(prd1, prd2, prd3, prd4, prd5, prd6, prd7, prd8,
 					prd9, prd10, prd11));
-			
+
 			var est1 = Estado.builder().nome("Minas Gerais").sigla("MG").build();
 			var est2 = Estado.builder().nome("São Paulo").sigla("SP").build();
 			var estados = new ArrayList<Estado>();
 			estados.addAll(List.of(est1, est2));
-			
+
 			var cid1 = Cidade.builder().nome("Uberlândia").estado(est1).build();
 			var cid2 = Cidade.builder().nome("São Paulo").estado(est2).build();
 			var cid3 = Cidade.builder().nome("Campinas").estado(est2).build();
 			var cidades = new ArrayList<Cidade>();
 			cidades.addAll(List.of(cid1, cid2, cid3));
-			
+
 			var clie1 = Cliente.builder().nome("Maria Silva")
 					.email("danilobenatti@gmail.com")
 					.cpfOuCnpj("363262161-00").tipo(PESSOAFISICA.getCodigo())
@@ -125,7 +125,7 @@ public class LoadDatabase {
 			clie2.addPerfil(Perfil.ADMIN);
 			var clientes = new ArrayList<Cliente>();
 			clientes.addAll(List.of(clie1, clie2));
-			
+
 			var end1 = Endereco.builder().logradouro("Rua Flores").numero("300")
 					.complemento("apt 203").bairro("Jardim").cep("38302000")
 					.cliente(clie1).cidade(cid1).build();
@@ -137,9 +137,9 @@ public class LoadDatabase {
 					.cliente(clie2).cidade(cid3).build();
 			var enderecos = new ArrayList<Endereco>();
 			enderecos.addAll(List.of(end1, end2, end3));
-			
+
 			SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-			
+
 			var ped1 = Pedido.builder()
 					.instante(dateFormat.parse("30/09/2017 10:32")).cliente(clie1)
 					.enderecoDeEntrega(end1).build();
@@ -147,7 +147,7 @@ public class LoadDatabase {
 					.instante(dateFormat.parse("10/10/2017 19:35")).cliente(clie1)
 					.enderecoDeEntrega(end2).build();
 			var pedidos = new ArrayList<Pedido>();
-			
+
 			var pgto1 = PagamentoComCartao.builder().pedido(ped1)
 					.numeroDeParcelas(6).status(QUITADO.getCodigo()).build();
 			var pgto2 = PagamentoComBoleto.builder().pedido(ped2)
@@ -155,15 +155,15 @@ public class LoadDatabase {
 					.dataPagamento(null).status(PENDENTE.getCodigo()).build();
 			var pagamentos = new ArrayList<Pagamento>();
 			pagamentos.addAll(List.of(pgto1, pgto2));
-			
+
 			var itmPd1 = new ItemPedido(ped1, prd1, 0.00, 1, 2000.00);
 			var itmPd2 = new ItemPedido(ped1, prd3, 0.00, 2, 80.00);
 			var itmPd3 = new ItemPedido(ped2, prd2, 100.00, 1, 800.00);
 			var itensPedido = new ArrayList<ItemPedido>();
 			itensPedido.addAll(List.of(itmPd1, itmPd2, itmPd3));
-			
+
 			pedidos.addAll(List.of(ped1, ped2));
-			
+
 			return args -> {
 				categoriaRepository.saveAll(categorias);
 				produtoRepository.saveAll(produtos);
@@ -178,12 +178,12 @@ public class LoadDatabase {
 		}
 		return null;
 	}
-	
+
 	@Bean
 	public EmailService emailService1() {
 		return new MockEmailService();
 	}
-	
+
 	@Bean
 	public EmailService emailService() {
 		return new SmtpEmailService();

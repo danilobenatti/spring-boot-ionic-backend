@@ -42,8 +42,8 @@ public class Cidade implements Serializable {
 	private String nome;
 
 	@ManyToOne(targetEntity = Estado.class, optional = false)
-	@JoinColumn(name = "estado_id", nullable = false, 
-		foreignKey = @ForeignKey(name = "fk_cidade__estado_id", 
+	@JoinColumn(name = "estado_id", nullable = false,
+		foreignKey = @ForeignKey(name = "fk_cidade__estado_id",
 		foreignKeyDefinition = "foreign key (estado_id) references estado(id) on delete cascade"))
 	private Estado estado;
 

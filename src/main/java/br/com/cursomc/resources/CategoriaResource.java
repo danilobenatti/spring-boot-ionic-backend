@@ -52,7 +52,7 @@ public class CategoriaResource {
 	}
 
 	@PreAuthorize("hasAnyRole('ADMIN')")
-	@PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, 
+	@PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE,
 			consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Void> update(@Valid @RequestBody CategoriaDTO objDto,
 			@PathVariable Integer id) {
